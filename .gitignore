@@ -1,0 +1,14 @@
+*.sln
+*.ide
+*.lock
+*.suo
+*.config
+*.dtbcache
+*.csproj
+*.dll
+*.pdb
+*.exe
+*.xml
+*.targets
+*.props
+*.cache
