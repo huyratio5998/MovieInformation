@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -40,8 +44,28 @@ namespace MovieInformation
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
                 facebookOptions.AccessDeniedPath = "/Home";
-                //facebookOptions.CallbackPath = "/Home/ExternalLoginCallback";
-            });
+                facebookOptions.SaveTokens = true;
+            })
+                .AddGoogle(googleOptions =>
+                {
+                    IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+                    googleOptions.ClientId = googleAuthNSection["ClientId"];
+                    googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
+                })
+                .AddZalo(zaloOptions =>
+                {
+                    IConfigurationSection zaloAuthSection = Configuration.GetSection("Authentication:Zalo");
+                    zaloOptions.ClientId = zaloAuthSection["ClientId"];
+                    zaloOptions.ClientSecret = zaloAuthSection["ClientSecret"];
+
+                })
+                .AddMicrosoftAccount(microsoftOptions =>
+                {
+                    IConfigurationSection microsoftAuthNSection = Configuration.GetSection("Authentication:Microsoft");
+                    microsoftOptions.ClientId = microsoftAuthNSection["ClientId"];
+                    microsoftOptions.ClientSecret = microsoftAuthNSection["ClientSecret"];
+                })
+                ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
