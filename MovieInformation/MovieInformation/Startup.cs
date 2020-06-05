@@ -16,6 +16,9 @@ using MovieInformation.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MovieInformation.Models;
+using MovieInformation.Services.ClassImp;
+using MovieInformation.Services.Interfaces;
 
 namespace MovieInformation
 {
@@ -31,10 +34,16 @@ namespace MovieInformation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // get config email : 
+            var emailConfig = Configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            //
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<MovieInformationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -66,6 +75,18 @@ namespace MovieInformation
                     microsoftOptions.ClientSecret = microsoftAuthNSection["ClientSecret"];
                 })
                 ;
+            services.AddHttpClient<IMovieService, MovieService>(client =>
+            {
+                client.BaseAddress=new Uri("https://api.themoviedb.org/3/");
+            });
+            services.AddHttpClient<ISearchService, SearchService>(client =>
+            {
+                client.BaseAddress = new Uri("https://api.themoviedb.org/3/");
+            });
+            services.AddHttpClient<IUserSessionService, UserSessionService>(client =>
+            {
+                client.BaseAddress = new Uri("https://api.themoviedb.org/3/");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

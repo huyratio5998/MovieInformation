@@ -7,7 +7,7 @@ using MovieInformation.Models;
 
 namespace MovieInformation.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<MovieInformationUser>
     {
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -17,6 +17,10 @@ namespace MovieInformation.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+        }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
         }
     }
 }

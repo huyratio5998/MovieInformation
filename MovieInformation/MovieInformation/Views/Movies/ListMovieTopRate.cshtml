@@ -1,0 +1,20 @@
+﻿@model MovieInformation.Services.ApiModels.Responses.MoviePopularResponse
+
+<div>
+    <h1>Top Rate Movies</h1>
+    <ul>
+        @foreach (var item in Model.Results)
+        {
+            <li>
+                <img src="https://image.tmdb.org/t/p/original/@(item.PosterPath)" style="width: 100px; height: auto"/>
+                <dl>
+                    <dt>@item.Title</dt>
+                    <dd>Point : @item.VoteAverage</dd>
+                    <dd>Vote numbers : @item.VoteCount</dd>
+                    <dd>@item.Overview</dd>
+                </dl>
+            </li>
+        }
+
+    </ul>
+</div>
