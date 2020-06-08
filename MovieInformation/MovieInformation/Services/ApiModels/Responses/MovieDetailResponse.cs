@@ -5,7 +5,7 @@ using System.Globalization;
 using MovieInformation.Services.ApiModels.Responses;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-namespace MovieInformation.Services.ApiModels
+namespace MovieInformation.Services.ApiModels.Responses
 {
     public partial class MovieDetailResponse
     {
@@ -16,7 +16,7 @@ namespace MovieInformation.Services.ApiModels
         public string BackdropPath { get; set; }
 
         [JsonProperty("belongs_to_collection")]
-        public string BelongsToCollection { get; set; }
+        public BelongCollections BelongsToCollection { get; set; }
 
         [JsonProperty("budget")]
         public long Budget { get; set; }
@@ -99,7 +99,18 @@ namespace MovieInformation.Services.ApiModels
         [JsonProperty("name")]
         public string Name { get; set; }
     }
+    public partial class BelongCollections
+    {
+        [JsonProperty("id")]
+        public long Id { get; set; }
 
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("backgrop_path")]
+        public string Backgrop_path { get; set; }
+     
+    }
     public partial class ProductionCompany
     {
         [JsonProperty("id")]

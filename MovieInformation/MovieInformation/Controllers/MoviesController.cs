@@ -32,15 +32,15 @@ namespace MovieInformation.Controllers
             _api_key= _config.GetValue<string>("AppSettings:Api_Key");
         }
 
-        public async Task<bool> SaveMovieInfor()
+        public async Task<IActionResult> Detail(string movieId)
         {
             MovieRequest request = new MovieRequest();
             request.Api_key = _api_key;
             request.Language = "en-US";
-            request.Movie_id = "419704";
+            request.Movie_id = movieId;
 
-            MovieDetailResponse movieDetail = await movieService.GetMovieDetail(request);
-            return true;
+            var movieDetail = movieService.GetMovieDetail(request);
+            return View("Detail", await movieDetail);
         }
         //
         
@@ -79,24 +79,7 @@ namespace MovieInformation.Controllers
             
             return View(await _context.Movies.ToListAsync());
         }
-
-        // GET: Movies/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var movie = await _context.Movies
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (movie == null)
-            {
-                return NotFound();
-            }
-
-            return View(movie);
-        }
+    
 
         // GET: Movies/Create
         public IActionResult Create()
