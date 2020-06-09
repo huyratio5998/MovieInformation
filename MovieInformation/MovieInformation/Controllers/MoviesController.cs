@@ -31,7 +31,16 @@ namespace MovieInformation.Controllers
             _config = config;
             _api_key= _config.GetValue<string>("AppSettings:Api_Key");
         }
-
+        public async Task<MoviePopularResponse> GetPopularMovies(int page = 1)
+        {
+            MovieRequest request = new MovieRequest();
+            request.Api_key = _api_key;
+            request.Language = "en-US";
+            request.Region = "US";
+            request.Page = page;
+            var lstMoviePopular = await movieService.GetPopularMovies(request);
+            return lstMoviePopular;
+        }
         public async Task<IActionResult> Detail(string movieId)
         {
             MovieRequest request = new MovieRequest();
@@ -52,32 +61,11 @@ namespace MovieInformation.Controllers
             request.Guest_session_id = "98fce7280d3315c15406f10e29b17c58";
             var raintMovie =  movieService.RatingMovies(request,8.0);
             return true;
-        }
-        public async Task<MoviePopularResponse> GetPopularMovies(int page=1)
-        {
-            MovieRequest request = new MovieRequest();
-            request.Api_key = _api_key;
-            request.Language = "en-US";
-            request.Region = "US";
-            request.Page= page;
-            var lstMoviePopular = await movieService.GetPopularMovies(request);
-            return lstMoviePopular;
-        }
-        public async Task<MoviePopularResponse> GetTopRateMovies(int page = 1)
-        {
-            MovieRequest request = new MovieRequest();
-            request.Api_key = _api_key;
-            request.Language = "en-US";
-            request.Page = page;
-            var lstMovieTopRate= await movieService.GetTopRateMovies(request);
-            return lstMovieTopRate;
-        }
+        }     
         public async Task<IActionResult> Index()
         {
-            ViewBag.lstPopular = await GetPopularMovies();
-            ViewBag.lstTopRating= await GetTopRateMovies();
-            
-            return View(await _context.Movies.ToListAsync());
+            var lstMovies = GetPopularMovies();
+            return View(await lstMovies);
         }
     
 

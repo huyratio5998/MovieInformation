@@ -13,15 +13,13 @@ namespace MovieInformation.Services.Interfaces
     {
         Task<MovieDetailResponse> GetMovieDetail(MovieRequest request);
         Task<MoviePopularResponse> GetPopularMovies(MovieRequest request);
-        Task<MoviePopularResponse> GetTopRateMovies(MovieRequest request);
-        ////
+        Task<MoviePopularResponse> GetTopRateMovies(MovieRequest request);        
         Task<MovieCreditsResponse> GetCreditsMovies(MovieRequest request);
         Task<MovieImageResponse> GetImagesMovies(MovieRequest request);
         Task<MovieKeywordRespone> GetKeywordMovies(MovieRequest request);
         Task<MovieVideoResponse> GetVideosMovies(MovieRequest request);
         Task<MoviePopularResponse> GetRecommendationsMovies(MovieRequest request);
-        Task<MoviePopularResponse> GetSimilarMovies(MovieRequest request);
-        //
+        Task<MoviePopularResponse> GetSimilarMovies(MovieRequest request);        
         Task<MovieRatingResponse> RatingMovies(MovieRequest request, double rating);
     }
 }
