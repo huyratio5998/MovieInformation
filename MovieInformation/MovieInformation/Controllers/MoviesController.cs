@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -47,8 +48,16 @@ namespace MovieInformation.Controllers
             request.Api_key = _api_key;
             request.Language = "en-US";
             request.Movie_id = movieId;
+            MovieRequest requestCast = new MovieRequest();
+            requestCast.Api_key = _api_key;
+            requestCast.Movie_id = movieId;
 
-            var movieDetail = movieService.GetMovieDetail(request);
+            var movieDetail = movieService.GetMovieDetail(request);          
+            MovieCreditsResponse lstCredits= await movieService.GetCreditsMovies(requestCast);
+            ViewBag.Credits = lstCredits;
+            ViewBag.Director = lstCredits.Crew.FirstOrDefault(x => x.Job.Equals("Director"));
+            ViewBag.Writer = lstCredits.Crew.Where(x => x.Job.Equals("Screenplay")).ToList();
+            ViewBag.Editting = lstCredits.Crew.Where(x => x.Department.Equals("Editing")).ToList();
             return View("Detail", await movieDetail);
         }
         //
@@ -62,9 +71,9 @@ namespace MovieInformation.Controllers
             var raintMovie =  movieService.RatingMovies(request,8.0);
             return true;
         }     
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page=1)
         {
-            var lstMovies = GetPopularMovies();
+            var lstMovies = GetPopularMovies(page);
             return View(await lstMovies);
         }
     

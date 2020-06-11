@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="topbar-filter fw">
-                    <p>Found <span>1,608 movies</span> in total</p>
+                    <p>Found <span>@Model.TotalResults movies</span> in total</p>
                     <label>Sort by:</label>
                     <select>
                         <option value="popularity">Popularity Descending</option>
@@ -46,7 +46,7 @@
                     <div class="movie-item-style-2 movie-item-style-1">
                         <img src="https://image.tmdb.org/t/p/original/@(item.PosterPath)" alt="" />
                         <div class="hvr-inner">
-                            <a href="Movies/Detail?movieId=@item.Id.ToString()"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+                           @Html.ActionLink("Read more","Detail","Movies",new { movieId=item.Id.ToString()}) <i class="ion-android-arrow-dropright"></i>
                         </div>
                         <div class="mv-item-infor">
                             <h6><a href="#">@item.Title</a></h6>
@@ -63,13 +63,18 @@
                     </select>
 
                     <div class="pagination2">
-                        <span>Page 1 of 2:</span>
-                        <a class="active" href="#">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
+                        <span>Page 1 of @Model.TotalPages:</span>
+                        @for (int i = 1; i <= 3; i++)
+                        {                            
+                            <a href="Index?page=@i">@i</a>
+                        }
                         <a href="#">...</a>
-                        <a href="#">78</a>
-                        <a href="#">79</a>
+                        @for (int i = (int)Model.TotalPages-1; i <=(int)Model.TotalPages; i++)
+                        {
+                            <a href="Index?page=@i">@i</a>
+                        }
+
+                       
                         <a href="#"><i class="ion-arrow-right-b"></i></a>
                     </div>
                 </div>

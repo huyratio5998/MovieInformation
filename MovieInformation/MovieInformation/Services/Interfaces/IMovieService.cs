@@ -13,6 +13,9 @@ namespace MovieInformation.Services.Interfaces
     {
         Task<MovieDetailResponse> GetMovieDetail(MovieRequest request);
         Task<MoviePopularResponse> GetPopularMovies(MovieRequest request);
+        Task<MoviePopularResponse> GetUpcomingMovies(MovieRequest request);
+        Task<MoviePopularResponse> GetTrending(MovieRequest request);
+        Task<MoviePopularResponse> GetNowPlayingMovies(MovieRequest request);
         Task<MoviePopularResponse> GetTopRateMovies(MovieRequest request);        
         Task<MovieCreditsResponse> GetCreditsMovies(MovieRequest request);
         Task<MovieImageResponse> GetImagesMovies(MovieRequest request);

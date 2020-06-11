@@ -83,6 +83,10 @@ namespace MovieInformation
             {
                 client.BaseAddress = new Uri("https://api.themoviedb.org/3/");
             });
+            services.AddHttpClient<IGenreService, GenreService>(client =>
+            {
+                client.BaseAddress = new Uri("https://api.themoviedb.org/3/");
+            });
             services.AddHttpClient<IUserSessionService, UserSessionService>(client =>
             {
                 client.BaseAddress = new Uri("https://api.themoviedb.org/3/");

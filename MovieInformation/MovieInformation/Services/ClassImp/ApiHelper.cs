@@ -11,8 +11,8 @@ using Newtonsoft.Json;
 namespace MovieInformation.Services.ClassImp
 {
     public class ApiHelper
-    {
-       
+    {       
+
         public static async Task<T> GetMovieApi<T>( string uri, HttpClient httpClient) where T: class
         {
             try
@@ -25,6 +25,6 @@ namespace MovieInformation.Services.ClassImp
             {
                 throw e;
             }
-        }
+        }      
     }
 }

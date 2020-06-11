@@ -8,42 +8,63 @@
 
 <div class="slider sliderv2">
     <div class="container">
-        <partial name="_HeaderSlide" />
+        <partial name="_HeaderSlide" model="ViewBag.lstNowPlaying" />
     </div>
 </div>
 <div class="movie-items  full-width">
     <div class="row">
         <div class="col-md-12">
             <div class="title-hd">
-                <h2>in theater</h2>
-                <a href="#" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+                <h2>Movie Top</h2>
+                <a href="Movies/Index" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
             </div>
             <div class="tabs">
                 <ul class="tab-links">
                     <li class="active"><a href="#tab1-h2">#Popular</a></li>
                     <li><a href="#tab2-h2"> #Coming soon</a></li>
                     <li><a href="#tab3-h2">  #Top rated  </a></li>
-                    <li><a href="#tab4-h2"> #Most reviewed</a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="tab1-h2" class="tab active">
                         <partial name="ListMoviePopular" model="ViewBag.lstPopular" />
                     </div>
                     <div id="tab2-h2" class="tab">
+                        <partial name="ListMovieTopRate" model="ViewBag.lstUpComing" />
+                    </div>
+                    <div id="tab3-h2" class="tab">
                         <partial name="ListMovieTopRate" model="ViewBag.lstTopRating" />
                     </div>
+
+                </div>
+            </div>
+            <div class="title-hd">
+                <h2>Movie Trending</h2>
+                <a href="Movies/Index" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+            </div>
+            <div class="tabs">
+                <ul class="tab-links">
+                    <li class="active"><a href="#tab21-h2">#Day Trending</a></li>
+                    <li><a href="#tab22-h2"> #Week Trending</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab21-h2" class="tab active">
+                        <partial name="ListMoviePopular" model="ViewBag.lstDayTrending" />
+                    </div>
+                    <div id="tab22-h2" class="tab">
+                        <partial name="ListMovieTopRate" model="ViewBag.lstWeekTrending" />
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <div class="trailers full-width">
     <div class="row ipad-width">
         <div class="col-md-9 col-sm-12 col-xs-12">
             <div class="title-hd">
                 <h2>in theater</h2>
-                <a href="#" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
+                <a href="Movies/Index" class="viewall">View all <i class="ion-ios-arrow-right"></i></a>
             </div>
             <div class="videos">
                 <div class="slider-for-2 video-ft">

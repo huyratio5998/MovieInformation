@@ -2,141 +2,9 @@
 
 @{
     ViewData["Title"] = "Detail";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutMovieInfor.cshtml";
+    MovieInformation.Services.ApiModels.Responses.MovieCreditsResponse credits= ViewBag.Credits;    
 }
-
-<h1>Detail</h1>
-
-<div>
-    <h4>Movie</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            Image
-        </dt>
-        <dd class="col-sm-10">
-            <img src="https://image.tmdb.org/t/p/w500/@(Model.BackdropPath)" />
-        </dd>
-
-    </dl>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-<header class="ht-header">
-    <div class="container">
-        <nav class="navbar navbar-default navbar-custom">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header logo">
-                <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <div id="nav-icon1">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-                <a href="index-2.html"><img class="logo" src="~/images/logo1.png" alt="" width="119" height="58"></a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav flex-child-menu menu-left">
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-                    <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown">
-                            Home <i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu level1">
-                            <li><a href="index-2.html">Home 01</a></li>
-                            <li><a href="homev2.html">Home 02</a></li>
-                            <li><a href="homev3.html">Home 03</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            movies<i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu level1">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Movie grid<i class="ion-ios-arrow-forward"></i></a>
-                                <ul class="dropdown-menu level2">
-                                    <li><a href="moviegrid.html">Movie grid</a></li>
-                                    <li><a href="moviegridfw.html">movie grid full width</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="movielist.html">Movie list</a></li>
-                            <li><a href="moviesingle.html">Movie single</a></li>
-                            <li class="it-last"><a href="seriessingle.html">Series single</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu level1">
-                            <li><a href="celebritygrid01.html">celebrity grid 01</a></li>
-                            <li><a href="celebritygrid02.html">celebrity grid 02 </a></li>
-                            <li><a href="celebritylist.html">celebrity list</a></li>
-                            <li class="it-last"><a href="celebritysingle.html">celebrity single</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            news <i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu level1">
-                            <li><a href="bloglist.html">blog List</a></li>
-                            <li><a href="bloggrid.html">blog Grid</a></li>
-                            <li class="it-last"><a href="blogdetail.html">blog Detail</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            community <i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu level1">
-                            <li><a href="userfavoritegrid.html">user favorite grid</a></li>
-                            <li><a href="userfavoritelist.html">user favorite list</a></li>
-                            <li><a href="userprofile.html">user profile</a></li>
-                            <li class="it-last"><a href="userrate.html">user rate</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav flex-child-menu menu-right">
-                    <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
-                            pages <i class="fa fa-angle-down" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu level1">
-                            <li><a href="landing.html">Landing</a></li>
-                            <li><a href="404.html">404 Page</a></li>
-                            <li class="it-last"><a href="comingsoon.html">Coming soon</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Help</a></li>
-                    <li class="loginLink"><a href="#">LOG In</a></li>
-                    <li class="btn signupLink"><a href="#">sign up</a></li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </nav>
-
-        <!-- top search form -->
-        <div class="top-search">
-            <select>
-                <option value="united">TV show</option>
-                <option value="saab">Others</option>
-            </select>
-            <input type="text" placeholder="Search for a movie, TV Show or celebrity that you are looking for">
-        </div>
-    </div>
-</header>
-<!-- END | Header -->
-
 <div class="hero mv-single-hero">
     <div class="container">
         <div class="row">
@@ -155,7 +23,7 @@
         <div class="row ipad-width2">
             <div class="col-md-4 col-sm-12 col-xs-12">
                 <div class="movie-img sticky-sb">
-                    <img src="~/images/uploads/movie-single.jpg" alt="">
+                    <img src="https://image.tmdb.org/t/p/original/@(Model.BackdropPath)" />
                     <div class="movie-btn">
                         <div class="btn-transform transform-vertical red">
                             <div><a href="#" class="item item-1 redbtn"> <i class="ion-play"></i> Watch Trailer</a></div>
@@ -170,7 +38,7 @@
             </div>
             <div class="col-md-8 col-sm-12 col-xs-12">
                 <div class="movie-single-ct main-content">
-                    <h1 class="bd-hd">Skyfall: Quantum of Spectre <span>2015</span></h1>
+                    <h1 class="bd-hd">@Model.Title<span>@Model.ReleaseDate</span></h1>
                     <div class="social-btn">
                         <a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
                         <div class="hover-bnt">
@@ -187,8 +55,8 @@
                         <div class="rate">
                             <i class="ion-android-star"></i>
                             <p>
-                                <span>8.1</span> /10<br>
-                                <span class="rv">56 Reviews</span>
+                                <span>@Model.VoteAverage</span> /10<br>
+                                <span class="rv">@Model.VoteCount Reviews</span>
                             </p>
                         </div>
                         <div class="rate-star">
@@ -217,7 +85,7 @@
                                 <div id="overview" class="tab active">
                                     <div class="row">
                                         <div class="col-md-8 col-sm-12 col-xs-12">
-                                            <p>Tony Stark creates the Ultron Program to protect the world, but when the peacekeeping program becomes hostile, The Avengers go into action to try and defeat a virtually impossible enemy together. Earth's mightiest heroes must come together once again to protect the world from global extinction.</p>
+                                            <p>@Model.Overview</p>
                                             <div class="title-hd-sm">
                                                 <h4>Videos & Photos</h4>
                                                 <a href="#" class="time">All 5 Videos & 245 Photos <i class="ion-ios-arrow-right"></i></a>
@@ -237,62 +105,16 @@
                                             </div>
                                             <!-- movie cast -->
                                             <div class="mvcast-item">
+                                                @foreach(var item in credits.Cast.Take(8)){
                                                 <div class="cast-it">
                                                     <div class="cast-left">
-                                                        <img src="~/images/uploads/cast1.jpg" alt="">
-                                                        <a href="#">Robert Downey Jr.</a>
+                                                        <img src="https://image.tmdb.org/t/p/original/@(item.ProfilePath)" alt="">
+                                                        <a href="#">@item.Name</a>
                                                     </div>
-                                                    <p>...  Robert Downey Jr.</p>
+                                                    <p>...  @item.Character</p>
                                                 </div>
-                                                <div class="cast-it">
-                                                    <div class="cast-left">
-                                                        <img src="~/images/uploads/cast2.jpg" alt="">
-                                                        <a href="#">Chris Hemsworth</a>
-                                                    </div>
-                                                    <p>...  Thor</p>
-                                                </div>
-                                                <div class="cast-it">
-                                                    <div class="cast-left">
-                                                        <img src="~/images/uploads/cast3.jpg" alt="">
-                                                        <a href="#">Mark Ruffalo</a>
-                                                    </div>
-                                                    <p>...  Bruce Banner/ Hulk</p>
-                                                </div>
-                                                <div class="cast-it">
-                                                    <div class="cast-left">
-                                                        <img src="~/images/uploads/cast4.jpg" alt="">
-                                                        <a href="#">Chris Evans</a>
-                                                    </div>
-                                                    <p>...  Steve Rogers/ Captain America</p>
-                                                </div>
-                                                <div class="cast-it">
-                                                    <div class="cast-left">
-                                                        <img src="~/images/uploads/cast5.jpg" alt="">
-                                                        <a href="#">Scarlett Johansson</a>
-                                                    </div>
-                                                    <p>...  Natasha Romanoff/ Black Widow</p>
-                                                </div>
-                                                <div class="cast-it">
-                                                    <div class="cast-left">
-                                                        <img src="~/images/uploads/cast6.jpg" alt="">
-                                                        <a href="#">Jeremy Renner</a>
-                                                    </div>
-                                                    <p>...  Clint Barton/ Hawkeye</p>
-                                                </div>
-                                                <div class="cast-it">
-                                                    <div class="cast-left">
-                                                        <img src="~/images/uploads/cast7.jpg" alt="">
-                                                        <a href="#">James Spader</a>
-                                                    </div>
-                                                    <p>...  Ultron</p>
-                                                </div>
-                                                <div class="cast-it">
-                                                    <div class="cast-left">
-                                                        <img src="~/images/uploads/cast9.jpg" alt="">
-                                                        <a href="#">Don Cheadle</a>
-                                                    </div>
-                                                    <p>...  James Rhodes/ War Machine</p>
-                                                </div>
+                                                }                                             
+
                                             </div>
                                             <div class="title-hd-sm">
                                                 <h4>User reviews</h4>
@@ -326,12 +148,22 @@
                                             </div>
                                             <div class="sb-it">
                                                 <h6>Writer: </h6>
-                                                <p><a href="#">Joss Whedon,</a> <a href="#">Stan Lee</a></p>
-                                            </div>
+                                                <p>
+                                                    @foreach (var item in ViewBag.Writer)
+                                                    {
+                                                    <a href="#">@item ,</a>
+                                                }
+                                                    </p>
+                                                </div>
                                             <div class="sb-it">
-                                                <h6>Stars: </h6>
-                                                <p><a href="#">Robert Downey Jr,</a> <a href="#">Chris Evans,</a> <a href="#">Mark Ruffalo,</a><a href="#"> Scarlett Johansson</a></p>
-                                            </div>
+                                                <h6>Editting: </h6>
+                                                <p>
+                                                    @foreach (var item in ViewBag.Editting)
+                                                    {
+                                                        <a href="#">@item ,</a>
+                                                    }
+                                                </p>
+                                                </div>
                                             <div class="sb-it">
                                                 <h6>Genres:</h6>
                                                 <p><a href="#">Action, </a> <a href="#"> Sci-Fi,</a> <a href="#">Adventure</a></p>

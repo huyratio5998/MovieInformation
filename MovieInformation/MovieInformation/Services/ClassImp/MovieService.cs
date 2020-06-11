@@ -101,5 +101,23 @@ namespace MovieInformation.Services.ClassImp
                 throw e;
             }
         }
+
+        public Task<MoviePopularResponse> GetNowPlayingMovies(MovieRequest request)
+        {
+            string uri = $"movie/now_playing?api_key={request.Api_key}&language={request.Language}&page={request.Page}&region={request.Region}";
+            return ApiHelper.GetMovieApi<MoviePopularResponse>(uri, _httpClient);
+        }
+
+        public Task<MoviePopularResponse> GetUpcomingMovies(MovieRequest request)
+        {
+            string uri = $"movie/upcoming?api_key={request.Api_key}&language={request.Language}&page={request.Page}&region={request.Region}";
+            return ApiHelper.GetMovieApi<MoviePopularResponse>(uri, _httpClient);
+        }
+
+        public Task<MoviePopularResponse> GetTrending(MovieRequest request)
+        {
+            string uri = $"trending/movie/{request.TrendingTime}?api_key={request.Api_key}";
+            return ApiHelper.GetMovieApi<MoviePopularResponse>(uri, _httpClient);
+        }
     }
 }

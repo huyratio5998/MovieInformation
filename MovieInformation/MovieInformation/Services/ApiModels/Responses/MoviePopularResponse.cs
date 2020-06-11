@@ -19,8 +19,18 @@ namespace MovieInformation.Services.ApiModels.Responses
 
         [JsonProperty("results")]
         public Item[] Results { get; set; }
-    }
+        [JsonProperty("dates")]
+        public Dates Dates { get; set; }
 
+    }
+    public partial class Dates
+    {
+        [JsonProperty("maximum")]
+        public DateTimeOffset Maximum { get; set; }
+
+        [JsonProperty("minimum")]
+        public DateTimeOffset Minimum { get; set; }
+    }
     public class Item
     {
         [JsonProperty("popularity")]

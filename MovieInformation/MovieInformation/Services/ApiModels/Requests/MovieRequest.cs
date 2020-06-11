@@ -31,5 +31,7 @@ namespace MovieInformation.Services.ApiModels.Requests
         [JsonProperty("guest_session_id")]
         public string Guest_session_id { get; set; }
 
+        public string TrendingTime { get; set; }
+
     }
 }
