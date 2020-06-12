@@ -41,23 +41,46 @@ namespace MovieInformation.Controllers
             request.Page = page;
             var lstMoviePopular = await movieService.GetPopularMovies(request);
             return lstMoviePopular;
-        }
+        }      
         public async Task<IActionResult> Detail(string movieId)
         {
             MovieRequest request = new MovieRequest();
             request.Api_key = _api_key;
             request.Language = "en-US";
             request.Movie_id = movieId;
+            //
             MovieRequest requestCast = new MovieRequest();
             requestCast.Api_key = _api_key;
             requestCast.Movie_id = movieId;
-
-            var movieDetail = movieService.GetMovieDetail(request);          
+            //
+            MovieRequest requestKeyword = new MovieRequest();
+            requestKeyword.Api_key = _api_key;
+            requestKeyword.Movie_id = movieId;
+            //
+            MovieRequest requestVideo = new MovieRequest();
+            requestVideo.Api_key = _api_key;
+            requestVideo.Movie_id = movieId;
+            requestVideo.Language = "en-US";
+            //
+            MovieRequest requestImage = new MovieRequest();
+            requestImage.Api_key = _api_key;
+            requestImage.Movie_id = movieId;
+            
+            //
+            var lstKeywordMovies = await movieService.GetKeywordMovies(requestKeyword);
+            var lstVideoMovies = await movieService.GetVideosMovies(requestVideo);
+            var lstImageMovies = await movieService.GetImagesMovies(requestImage);
+            var movieDetail = movieService.GetMovieDetail(request);    
+            
             MovieCreditsResponse lstCredits= await movieService.GetCreditsMovies(requestCast);
             ViewBag.Credits = lstCredits;
             ViewBag.Director = lstCredits.Crew.FirstOrDefault(x => x.Job.Equals("Director"));
             ViewBag.Writer = lstCredits.Crew.Where(x => x.Job.Equals("Screenplay")).ToList();
             ViewBag.Editting = lstCredits.Crew.Where(x => x.Department.Equals("Editing")).ToList();
+            ViewBag.Keywords = lstKeywordMovies;
+            ViewBag.Videos = lstVideoMovies.Results.Take(8).ToList();
+            ViewBag.Backdrops = lstImageMovies.Backdrops.Take(14).ToList();
+            ViewBag.Posters = lstImageMovies.Posters.Take(7).ToList();
             return View("Detail", await movieDetail);
         }
         //
@@ -71,10 +94,31 @@ namespace MovieInformation.Controllers
             var raintMovie =  movieService.RatingMovies(request,8.0);
             return true;
         }     
-        public async Task<IActionResult> Index(int page=1)
+        public async Task<IActionResult> Index(int page=1,string option="")
         {
-            var lstMovies = GetPopularMovies(page);
-            return View(await lstMovies);
+            var lstMovies = await GetPopularMovies(page);            
+            switch (option)
+            {
+                case "popularityDes": 
+                    lstMovies.Results= lstMovies.Results.OrderByDescending(x => x.Popularity).ToArray();
+                    break;
+                case "popularityAsc":
+                    lstMovies.Results = lstMovies.Results.OrderBy(x => x.Popularity).ToArray()  ;
+                    break;
+                case "ratingDes":
+                    lstMovies.Results = lstMovies.Results.OrderByDescending(x => x.VoteAverage).ToArray();
+                    break;
+                case "ratingAsc":
+                    lstMovies.Results = lstMovies.Results.OrderBy(x => x.VoteAverage).ToArray();
+                    break;
+                case "releaseAsc":
+                    lstMovies.Results = lstMovies.Results.OrderBy(x => x.ReleaseDate).ToArray();
+                    break;
+                case "releaseDes":
+                    lstMovies.Results =  lstMovies.Results.OrderByDescending(x => x.ReleaseDate).ToArray();
+                    break;                
+            }            
+            return View(lstMovies);
         }
     
 
