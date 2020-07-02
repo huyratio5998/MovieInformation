@@ -37,7 +37,7 @@ namespace MovieInformation.Controllers
             _config = config;
             _api_key = _config.GetValue<string>("AppSettings:Api_Key");
         }      
-
+        
         public async Task<MoviePopularResponse> GetPopularMovies(int page = 1)
         {
             MovieRequest request = new MovieRequest();

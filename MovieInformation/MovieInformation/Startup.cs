@@ -55,25 +55,25 @@ namespace MovieInformation
                 facebookOptions.AccessDeniedPath = "/Home";
                 facebookOptions.SaveTokens = true;
             })
-                .AddGoogle(googleOptions =>
-                {
-                    IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
-                    googleOptions.ClientId = googleAuthNSection["ClientId"];
-                    googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
-                })
-                .AddZalo(zaloOptions =>
-                {
-                    IConfigurationSection zaloAuthSection = Configuration.GetSection("Authentication:Zalo");
-                    zaloOptions.ClientId = zaloAuthSection["ClientId"];
-                    zaloOptions.ClientSecret = zaloAuthSection["ClientSecret"];
+                //.AddGoogle(googleOptions =>
+                //{
+                //    IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+                //    googleOptions.ClientId = googleAuthNSection["ClientId"];
+                //    googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
+                //})
+                //.AddZalo(zaloOptions =>
+                //{
+                //    IConfigurationSection zaloAuthSection = Configuration.GetSection("Authentication:Zalo");
+                //    zaloOptions.ClientId = zaloAuthSection["ClientId"];
+                //    zaloOptions.ClientSecret = zaloAuthSection["ClientSecret"];
 
-                })
-                .AddMicrosoftAccount(microsoftOptions =>
-                {
-                    IConfigurationSection microsoftAuthNSection = Configuration.GetSection("Authentication:Microsoft");
-                    microsoftOptions.ClientId = microsoftAuthNSection["ClientId"];
-                    microsoftOptions.ClientSecret = microsoftAuthNSection["ClientSecret"];
-                })
+                //})
+                //.AddMicrosoftAccount(microsoftOptions =>
+                //{
+                //    IConfigurationSection microsoftAuthNSection = Configuration.GetSection("Authentication:Microsoft");
+                //    microsoftOptions.ClientId = microsoftAuthNSection["ClientId"];
+                //    microsoftOptions.ClientSecret = microsoftAuthNSection["ClientSecret"];
+                //})
                 ;
             services.AddHttpClient<IMovieService, MovieService>(client =>
             {
@@ -91,6 +91,7 @@ namespace MovieInformation
             {
                 client.BaseAddress = new Uri("https://api.themoviedb.org/3/");
             });
+            services.AddScoped<IPaymentPaypal, PaymentPaypal>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
