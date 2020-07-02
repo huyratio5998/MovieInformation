@@ -91,7 +91,7 @@ namespace MovieInformation
             {
                 client.BaseAddress = new Uri("https://api.themoviedb.org/3/");
             });
-            services.AddScoped<IPaymentPaypal, PaymentPaypal>();
+            services.AddScoped<IPaymentPaypalService, PaymentPaypal>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

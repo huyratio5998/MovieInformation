@@ -10,29 +10,30 @@ namespace MovieInformation.Controllers
 {
     public class PaymentPaypalController : ApiController
     {
-        private IPaymentPaypal _paymentPaypal;
+        private IPaymentPaypalService _paymentPaypal;
 
-        public PaymentPaypalController(IPaymentPaypal paymentPaypal)
+        public PaymentPaypalController(IPaymentPaypalService paymentPaypal)
         {
             _paymentPaypal = paymentPaypal;
         }
         [HttpGet]        
         public async Task<IHttpActionResult> CreatePayment()
         {
-            var result = await _paymentPaypal.CreatePayment();
+            var result = await _paymentPaypal.CreatePayment();            
             foreach (var item in result.links)
             {
                 if (item.rel.Equals("approval_url"))
                 {
                     return Redirect(item.href);
+                   
                 }
             }
-            return NotFound();
+            return NotFound();           
         }
         [HttpGet]        
-        public async Task<IHttpActionResult> ExecutePayment(string paymentId, string token, string payerId)
+        public async Task<IHttpActionResult> ExecutePayment(string paymentId, string token, string PayerID)
         {
-            Payment result = await _paymentPaypal.ExecutePayment(payerId, paymentId);
+            Payment result = await _paymentPaypal.ExecutePayment(PayerID, paymentId);
             return Ok(result);
         }
         [HttpGet]        

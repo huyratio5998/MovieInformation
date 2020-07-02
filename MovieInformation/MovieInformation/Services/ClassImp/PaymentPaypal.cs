@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace MovieInformation.Services.ClassImp
 {
-    public class PaymentPaypal : IPaymentPaypal
+    public class PaymentPaypal : IPaymentPaypalService
     {
         private IConfiguration _config;
         private APIContext apiContext;
@@ -44,7 +44,7 @@ namespace MovieInformation.Services.ClassImp
                     redirect_urls = new RedirectUrls
                     {
                         cancel_url = "https://localhost:44369/Home/Error",
-                        return_url = "https://localhost:44369/Movies/Index"
+                        return_url = "https://localhost:44369/PaymentPaypal/ExecutePayment"
                     }
                 };
                 createPayment = await Task.Run(() => payment.Create(apiContext));
@@ -59,7 +59,8 @@ namespace MovieInformation.Services.ClassImp
 
         public async Task<Payment> ExecutePayment(string payerId, string paymentId)
         {
-            var config = new PayPalHandler(_config);            
+            var config = new PayPalHandler(_config);
+            accessToken = new OAuthTokenCredential(config._payPalConfig).GetAccessToken();
             apiContext = new APIContext(accessToken)
             {
                 Config = config._payPalConfig

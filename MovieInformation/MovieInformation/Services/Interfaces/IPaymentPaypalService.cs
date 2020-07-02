@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace MovieInformation.Services.Interfaces
 {
-    public interface IPaymentPaypal
+    public interface IPaymentPaypalService
     {        
         Task<Payment> CreatePayment();
         Task<Payment> ExecutePayment(string payerId, string paymentId);
