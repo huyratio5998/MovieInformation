@@ -38,12 +38,12 @@ namespace MovieInformation.Services.ClassImp
                         new Transaction
                         {
                             amount=new Amount{currency="EUR",total="100"},
-                            description="Test paypal product"
+                            description="Register Vip Account"
                         }
                     },
                     redirect_urls = new RedirectUrls
                     {
-                        cancel_url = "https://localhost:44369/Home/Error",
+                        cancel_url = "https://localhost:44369/PaymentPaypal/CancelPayment",
                         return_url = "https://localhost:44369/PaymentPaypal/ExecutePayment"
                     }
                 };

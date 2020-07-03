@@ -36,7 +36,8 @@ namespace MovieInformation.Controllers
             this.genreService = genreService;
             _config = config;
             _api_key = _config.GetValue<string>("AppSettings:Api_Key");
-        }      
+        }
+        #region movie Api 
         
         public async Task<MoviePopularResponse> GetPopularMovies(int page = 1)
         {
@@ -103,6 +104,7 @@ namespace MovieInformation.Controllers
             var lstGenres = await genreService.GetListGenre(request);
             return lstGenres;
         }
+        #endregion
         public async Task<IActionResult> Index()
         {
             ViewBag.lstPopular = await GetPopularMovies();
