@@ -52,6 +52,15 @@ namespace MovieInformation
             {
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                #region getFacebookDetailInformations
+                facebookOptions.Scope.Add("user_birthday");
+                facebookOptions.Scope.Add("public_profile");
+                facebookOptions.Fields.Add("birthday");
+                facebookOptions.Fields.Add("picture");
+                facebookOptions.Fields.Add("name");
+                facebookOptions.Fields.Add("email");
+                facebookOptions.Fields.Add("gender");
+                #endregion
                 facebookOptions.AccessDeniedPath = "/Home";
                 facebookOptions.SaveTokens = true;
             })

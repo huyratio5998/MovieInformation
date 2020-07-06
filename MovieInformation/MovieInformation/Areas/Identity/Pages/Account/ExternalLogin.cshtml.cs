@@ -14,20 +14,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using MovieInformation.Models;
 
 namespace MovieInformation.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<MovieInformationUser> _signInManager;
+        private readonly UserManager<MovieInformationUser> _userManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
 
         public ExternalLoginModel(
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
+            SignInManager<MovieInformationUser> signInManager,
+            UserManager<MovieInformationUser> userManager,
             ILogger<ExternalLoginModel> logger,
             IEmailSender emailSender)
         {
@@ -52,6 +53,10 @@ namespace MovieInformation.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+            public string Birthday { get; set; }
+            public string Picture { get; set; }
+            public string Name { get; set; }
+            public string Gender { get; set; }            
         }
 
         public IActionResult OnGetAsync()
@@ -66,11 +71,11 @@ namespace MovieInformation.Areas.Identity.Pages.Account
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
-
+    
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
             
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl = returnUrl ?? Url.Content("~/Home/Index");
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
@@ -82,6 +87,7 @@ namespace MovieInformation.Areas.Identity.Pages.Account
                 ErrorMessage = "Error loading external login information.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
+
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
             if (result.Succeeded)
@@ -94,24 +100,39 @@ namespace MovieInformation.Areas.Identity.Pages.Account
                 return RedirectToPage("./Lockout");
             }
             else
-            {
+            {             
                 // If the user does not have an account, then ask the user to create an account.
                 ReturnUrl = returnUrl;
                 LoginProvider = info.LoginProvider;
-                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+                var dob = info.Principal.FindFirstValue(ClaimTypes.DateOfBirth);
+                var gender = info.Principal.FindFirstValue(ClaimTypes.Gender);
+                var identifier = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                var picture = $"https://graph.facebook.com/{identifier}/picture?type=large";
+                Input= new InputModel
                 {
-                    Input = new InputModel
-                    {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                    };
-                }
+                    Email = email, //User Email  
+                    Name = name, //user Display Name  
+                    Birthday = dob.ToString(), //User DOB  
+                    Gender = gender, //User Gender  
+                    Picture = picture //User Profile Image  
+                };
                 return Page();
+                //if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                //{
+                //    Input = new InputModel
+                //    {
+                //        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                //    };
+                //}
+                //return Page();
             }
         }
 
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl = returnUrl ?? Url.Content("~/Home/Index");
             // Get the information about the user from the external login provider
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
@@ -122,7 +143,7 @@ namespace MovieInformation.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new MovieInformationUser { UserName = Input.Email, Email = Input.Email, Nickname=Input.Name,Birthday=Input.Birthday,Gender=Input.Gender,Picture=Input.Picture };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

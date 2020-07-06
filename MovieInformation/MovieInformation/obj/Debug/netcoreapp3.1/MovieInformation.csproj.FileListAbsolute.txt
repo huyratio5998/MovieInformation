@@ -397,3 +397,4 @@ C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\obj\Debug\netcoreapp
 C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.dll
 C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.pdb
 C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.csprojAssemblyReference.cache
+C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Login.cshtml.g.cs
