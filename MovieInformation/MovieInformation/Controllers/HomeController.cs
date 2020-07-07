@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,10 +27,12 @@ namespace MovieInformation.Controllers
         private IMovieService movieService;
         private IGenreService genreService;
         private readonly IConfiguration _config;
-
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly string _api_key;
         // GET: Movies
-        public HomeController(ILogger<HomeController> logger,ApplicationDbContext context, IMovieService movieService, IConfiguration config, IGenreService genreService)
+        public HomeController(ILogger<HomeController> logger,ApplicationDbContext context,
+            IMovieService movieService, IConfiguration config, IGenreService genreService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _context = context;
@@ -36,6 +40,7 @@ namespace MovieInformation.Controllers
             this.genreService = genreService;
             _config = config;
             _api_key = _config.GetValue<string>("AppSettings:Api_Key");
+            _httpContextAccessor = httpContextAccessor;
         }
         #region movie Api 
         
@@ -107,6 +112,7 @@ namespace MovieInformation.Controllers
         #endregion
         public async Task<IActionResult> Index()
         {
+            var currentUser=_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
             ViewBag.lstPopular = await GetPopularMovies();
             ViewBag.lstTopRating = await GetTopRateMovies();
             ViewBag.lstNowPlaying = await GetNowPlayingMovies();
@@ -116,7 +122,10 @@ namespace MovieInformation.Controllers
             ViewBag.lstUpComing = await GetUpcomingMovies();
             return View(await _context.Movies.ToListAsync());
         }
-
+        public ActionResult PaySuccess()
+        {
+            return View("PaySuccess");
+        }
         public IActionResult Privacy()
         {
             return View();

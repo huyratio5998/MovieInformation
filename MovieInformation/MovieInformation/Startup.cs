@@ -52,6 +52,13 @@ namespace MovieInformation
             {
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                facebookOptions.Scope.Add("user_birthday");
+                facebookOptions.Scope.Add("public_profile");
+                facebookOptions.Fields.Add("birthday");
+                facebookOptions.Fields.Add("picture");
+                facebookOptions.Fields.Add("name");
+                facebookOptions.Fields.Add("email");
+                facebookOptions.Fields.Add("gender");
                 facebookOptions.AccessDeniedPath = "/Home";
                 facebookOptions.SaveTokens = true;
             })
@@ -92,8 +99,9 @@ namespace MovieInformation
                 client.BaseAddress = new Uri("https://api.themoviedb.org/3/");
             });
             services.AddScoped<IPaymentPaypalService, PaymentPaypal>();
+            services.AddHttpContextAccessor();
         }
-
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

@@ -6,6 +6,9 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
+        <img src="https://graph.facebook.com/2482814241819172/picture?type=large" alt="Alternate Text" />
+    </li>
+    <li class="nav-item">
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
     </li>
     <li class="nav-item">

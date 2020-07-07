@@ -37,7 +37,7 @@ namespace MovieInformation.Services.ClassImp
                     {
                         new Transaction
                         {
-                            amount=new Amount{currency="EUR",total="100"},
+                            amount=new Amount{currency="EUR",total="250"},
                             description="Register Vip Account"
                         }
                     },
