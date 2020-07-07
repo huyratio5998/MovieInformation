@@ -25,15 +25,28 @@ namespace MovieInformation.Controllers
             try
             {
                 var user = await _userManager.GetUserAsync(User);
-                
-                var paymentDB = new Models.Payment()
-                {                 
-                    userId = Guid.Parse(user.Id),
-                    amount = Amount,
-                    currency = Currency,                    
-                    expireDate = DateTime.Now.ToUniversalTime().AddDays(365)
-                };
-                _paymentService.AddTransaction(paymentDB);
+                var transaction = _paymentService.GetTransactionByUserId(user.Id);
+                if (transaction != null)
+                {
+                    double addAmount = double.Parse(Amount);
+                    double tAmount = double.Parse(transaction.amount);
+                    tAmount += addAmount;
+                    transaction.amount = tAmount.ToString();
+                    transaction.expireDate=transaction.expireDate.AddDays(365);
+                    _paymentService.UpdateTransaction(transaction);
+                }
+                else
+                {
+                    // create transaction
+                    var paymentDB = new Models.Payment()
+                    {
+                        userId = Guid.Parse(user.Id),
+                        amount = Amount,
+                        currency = Currency,
+                        expireDate = DateTime.Now.ToUniversalTime().AddDays(365)
+                    };
+                    _paymentService.AddTransaction(paymentDB);
+                }             
                 return RedirectToAction("Index", "Home");
             }catch(Exception e)
             {

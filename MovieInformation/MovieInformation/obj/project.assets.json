@@ -10025,11 +10025,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\PTIT\\Year4\\Sermester_2_year4\\PhatTrienPhanMemHuongDichVu\\BaiTapLon\\Project\\MovieInformation\\MovieInformation\\MovieInformation.csproj",
+      "projectUniqueName": "C:\\Projects\\Sermester4_2\\PhatTrienPhanMemDichVu\\Project\\MovieInformation\\MovieInformation\\MovieInformation.csproj",
       "projectName": "MovieInformation",
-      "projectPath": "D:\\PTIT\\Year4\\Sermester_2_year4\\PhatTrienPhanMemHuongDichVu\\BaiTapLon\\Project\\MovieInformation\\MovieInformation\\MovieInformation.csproj",
+      "projectPath": "C:\\Projects\\Sermester4_2\\PhatTrienPhanMemDichVu\\Project\\MovieInformation\\MovieInformation\\MovieInformation.csproj",
       "packagesPath": "C:\\Users\\huyng\\.nuget\\packages\\",
-      "outputPath": "D:\\PTIT\\Year4\\Sermester_2_year4\\PhatTrienPhanMemHuongDichVu\\BaiTapLon\\Project\\MovieInformation\\MovieInformation\\obj\\",
+      "outputPath": "C:\\Projects\\Sermester4_2\\PhatTrienPhanMemDichVu\\Project\\MovieInformation\\MovieInformation\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\huyng\\AppData\\Roaming\\NuGet\\NuGet.Config",

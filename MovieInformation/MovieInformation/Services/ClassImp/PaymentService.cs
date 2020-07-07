@@ -33,11 +33,35 @@ namespace MovieInformation.Services.ClassImp
                         
         }
 
+        public bool UpdateTransaction(Payment payment)
+        {
+            try
+            {
+                _context.Entry(payment).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public bool CheckUserVipAccount(string Id)
         {
-            var check = _context.Payments.Any(x => x.userId.ToString().Equals(Id.Trim()));
-            if (check) return true;
+            Guid id = Guid.Parse(Id);
+            var check = _context.Payments.FirstOrDefault(x => x.userId==id);
+            if (check!=null) return true;
             return false;
         }
+        public Payment GetTransactionByUserId(string userId)
+        {
+            Guid UserId = Guid.Parse(userId);
+            var result = _context.Payments.FirstOrDefault(x => x.userId==UserId);
+            if (result != null) return result;
+            return null;
+        }
+
+      
     }
 }

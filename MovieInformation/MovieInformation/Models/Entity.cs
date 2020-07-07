@@ -13,7 +13,7 @@ namespace MovieInformation.Models
         public Entity()
         {
             Id=Guid.NewGuid();
-            CreatedDate = new DateTime().ToUniversalTime();
+            CreatedDate = DateTime.Now.ToUniversalTime();
             
         }
         
