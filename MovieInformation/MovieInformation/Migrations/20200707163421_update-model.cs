@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieInformation.Migrations
 {
-    public partial class huyratio : Migration
+    public partial class updatemodel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

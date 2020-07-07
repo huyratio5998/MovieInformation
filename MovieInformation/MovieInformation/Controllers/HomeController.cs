@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,11 +29,15 @@ namespace MovieInformation.Controllers
         private IGenreService genreService;
         private readonly IConfiguration _config;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IPaymentService _paymentService;
         private readonly string _api_key;
+        private UserManager<MovieInformationUser> _userManager;
         // GET: Movies
         public HomeController(ILogger<HomeController> logger,ApplicationDbContext context,
             IMovieService movieService, IConfiguration config, IGenreService genreService,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor, IPaymentService paymentService,
+            UserManager<MovieInformationUser> userManager
+            )
         {
             _logger = logger;
             _context = context;
@@ -41,6 +46,8 @@ namespace MovieInformation.Controllers
             _config = config;
             _api_key = _config.GetValue<string>("AppSettings:Api_Key");
             _httpContextAccessor = httpContextAccessor;
+            _paymentService = paymentService;
+            _userManager = userManager;
         }
         #region movie Api 
         
@@ -112,14 +119,24 @@ namespace MovieInformation.Controllers
         #endregion
         public async Task<IActionResult> Index()
         {
-            var currentUser=_httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).Value;
-            ViewBag.lstPopular = await GetPopularMovies();
-            ViewBag.lstTopRating = await GetTopRateMovies();
-            ViewBag.lstNowPlaying = await GetNowPlayingMovies();
+            var user = await _userManager.GetUserAsync(User);
+            bool isVipUser = false;
+            if (user != null)
+            {
+                isVipUser = _paymentService.CheckUserVipAccount(user.Id);
+            };
+            ViewBag.IsUserVip = isVipUser;
+            if (isVipUser)
+            {
+                ViewBag.lstUpComing = await GetUpcomingMovies();
+                ViewBag.lstTopRating = await GetTopRateMovies();
+                ViewBag.lstWeekTrending = await GetWeekTrendingMovies();
+            }
             ViewBag.lstGenres = await GetlstGenres();
+            ViewBag.lstNowPlaying = await GetNowPlayingMovies();
+            ViewBag.lstPopular = await GetPopularMovies();
             ViewBag.lstDayTrending = await GetDayTrendingMovies();
-            ViewBag.lstWeekTrending = await GetWeekTrendingMovies();
-            ViewBag.lstUpComing = await GetUpcomingMovies();
+
             return View(await _context.Movies.ToListAsync());
         }
         public ActionResult PaySuccess()

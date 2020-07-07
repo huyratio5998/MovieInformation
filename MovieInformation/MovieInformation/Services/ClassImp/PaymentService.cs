@@ -36,7 +36,8 @@ namespace MovieInformation.Services.ClassImp
         public bool CheckUserVipAccount(string Id)
         {
             var check = _context.Payments.Any(x => x.userId.ToString().Equals(Id.Trim()));
-            return check;
+            if (check) return true;
+            return false;
         }
     }
 }

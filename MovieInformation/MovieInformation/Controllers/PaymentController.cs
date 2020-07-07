@@ -40,18 +40,6 @@ namespace MovieInformation.Controllers
                 throw e;
             }
         }
-        public async Task<bool> CheckUserVip()
-        {
-            try
-            {
-                var user = await _userManager.GetUserAsync(User);
-                _paymentService.CheckUserVipAccount(user.Id);
-                return true;
-            }catch( Exception e)
-            {
-                return false;
-            }
-            
-        }
+       
     }
 }

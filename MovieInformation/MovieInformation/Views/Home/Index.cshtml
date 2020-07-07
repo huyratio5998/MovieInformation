@@ -22,20 +22,25 @@
             <div class="tabs">
                 <ul class="tab-links">
                     <li class="active"><a href="#tab1-h2">#Popular</a></li>
+                @if (ViewBag.IsUserVip)
+                {
                     <li><a href="#tab2-h2"> #Coming soon</a></li>
-                    <li><a href="#tab3-h2">  #Top rated  </a></li>
+                    <li><a href="#tab3-h2"> #Top rated </a></li>
+                }
                 </ul>
                 <div class="tab-content">
                     <div id="tab1-h2" class="tab active">
                         <partial name="ListMoviePopular" model="ViewBag.lstPopular" />
                     </div>
-                    <div id="tab2-h2" class="tab">
-                        <partial name="ListMovieTopRate" model="ViewBag.lstUpComing" />
-                    </div>
-                    <div id="tab3-h2" class="tab">
-                        <partial name="ListMovieTopRate" model="ViewBag.lstTopRating" />
-                    </div>
-
+                    @if (ViewBag.IsUserVip)
+                    {
+                        <div id="tab2-h2" class="tab">
+                            <partial name="ListMovieTopRate" model="ViewBag.lstUpComing" />
+                        </div>
+                        <div id="tab3-h2" class="tab">
+                            <partial name="ListMovieTopRate" model="ViewBag.lstTopRating" />
+                        </div>
+                    }
                 </div>
             </div>
             <div class="title-hd">
@@ -45,16 +50,22 @@
             <div class="tabs">
                 <ul class="tab-links">
                     <li class="active"><a href="#tab21-h2">#Day Trending</a></li>
+                @if (ViewBag.IsUserVip)
+                {
                     <li><a href="#tab22-h2"> #Week Trending</a></li>
+                }
                 </ul>
                 <div class="tab-content">
                     <div id="tab21-h2" class="tab active">
                         <partial name="ListMoviePopular" model="ViewBag.lstDayTrending" />
                     </div>
-                    <div id="tab22-h2" class="tab">
-                        <partial name="ListMovieTopRate" model="ViewBag.lstWeekTrending" />
-                    </div>
+                    @if (ViewBag.IsUserVip)
+                    {
+                        <div id="tab22-h2" class="tab">
+                            <partial name="ListMovieTopRate" model="ViewBag.lstWeekTrending" />
+                        </div>
 
+                    }
                 </div>
             </div>
         </div>

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieInformation.Data;
 
-namespace MovieInformation.Data.Migrations
+namespace MovieInformation.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200705110627_add field user")]
-    partial class addfielduser
+    [Migration("20200707163421_update-model")]
+    partial class updatemodel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -340,7 +340,7 @@ namespace MovieInformation.Data.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Nickname")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
@@ -384,6 +384,32 @@ namespace MovieInformation.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("MovieInformation.Models.Payment", b =>
+                {
+                    b.Property<Guid>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("amount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("currency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("expireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("userId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

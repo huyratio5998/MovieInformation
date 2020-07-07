@@ -2,10 +2,20 @@
 @inject SignInManager<MovieInformationUser> SignInManager
 @inject UserManager<MovieInformationUser> UserManager
     @if (SignInManager.IsSignedIn(User))
-    {        
-        <li>
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity.Name</a>
-        </li>
+    {
+        if (ViewBag.IsUserVip)
+        {
+            <li>
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><span style="color: yellow">VIP </span>@User.Identity.Name</a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity.Name</a>
+            </li>
+        }
+     
         <li>
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>

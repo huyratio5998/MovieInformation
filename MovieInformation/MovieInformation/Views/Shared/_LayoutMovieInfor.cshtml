@@ -2,7 +2,9 @@
 @{
     Layout = null;
 }
-
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<MovieInformationUser> SignInManager
+@inject UserManager<MovieInformationUser> UserManager
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 
@@ -138,9 +140,12 @@
                         <li class="hidden">
                             <a href="#page-top"></a>
                         </li>
-                        <li>@Html.ActionLink("Home","Index","Home")</li>                        
-                        <li>@Html.ActionLink("Movies", "Index", "Movies")</li>                                           
-                        <li>@Html.ActionLink("VipAccount","CreatePayment","PaymentPaypal")</li>
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Movies", "Index", "Movies")</li>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li>@Html.ActionLink("VipAccount", "CreatePayment", "PaymentPaypal")</li>
+                        }
                         <li class="dropdown first">
                             <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                                 celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
@@ -188,7 +193,7 @@
                         <li><a href="#">Help</a></li>
                         <partial name="_LoginPartial" />
                         @*<li class="loginLink"><a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
-                        <li class="btn signupLink">  <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Sign up</a></li>*@
+                            <li class="btn signupLink">  <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Sign up</a></li>*@
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -199,7 +204,7 @@
     </header>
     <!-- END | Header -->
 
-     @RenderBody()
+    @RenderBody()
     <!-- footer v2 section-->
     <footer class="ht-footer full-width-ft">
         <div class="row">
