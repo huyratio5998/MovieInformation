@@ -52,6 +52,7 @@ namespace MovieInformation
             {
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                #region getFacebookDetailInformations
                 facebookOptions.Scope.Add("user_birthday");
                 facebookOptions.Scope.Add("public_profile");
                 facebookOptions.Fields.Add("birthday");
@@ -59,6 +60,7 @@ namespace MovieInformation
                 facebookOptions.Fields.Add("name");
                 facebookOptions.Fields.Add("email");
                 facebookOptions.Fields.Add("gender");
+                #endregion
                 facebookOptions.AccessDeniedPath = "/Home";
                 facebookOptions.SaveTokens = true;
             })
@@ -67,6 +69,15 @@ namespace MovieInformation
                     IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
                     googleOptions.ClientId = googleAuthNSection["ClientId"];
                     googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
+                    googleOptions.Scope.Add("profile");
+                    googleOptions.Events.OnCreatingTicket = (context) =>
+                    {
+                        var picture = context.User.GetProperty("picture").GetString();
+
+                        context.Identity.AddClaim(new Claim("picture", picture));
+
+                        return Task.CompletedTask;
+                    };
                 })
                 .AddZalo(zaloOptions =>
                 {
@@ -98,10 +109,10 @@ namespace MovieInformation
             {
                 client.BaseAddress = new Uri("https://api.themoviedb.org/3/");
             });
-            services.AddScoped<IPaymentPaypalService, PaymentPaypal>();
-            services.AddHttpContextAccessor();
+            services.AddTransient<IPaymentPaypalService, PaymentPaypal>();
+            services.AddTransient<IPaymentService, PaymentService>();
         }
-        
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

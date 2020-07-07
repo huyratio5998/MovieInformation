@@ -53,10 +53,10 @@ namespace MovieInformation.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
-            public string Name { get; set; }
-            public string DOB { get; set; }
-            public string Gender { get; set; }
+            public string Birthday { get; set; }
             public string Picture { get; set; }
+            public string Name { get; set; }
+            public string Gender { get; set; }            
         }
 
         public IActionResult OnGetAsync()
@@ -64,18 +64,18 @@ namespace MovieInformation.Areas.Identity.Pages.Account
             return RedirectToPage("./Login");
         }
 
-        public IActionResult OnPost(string provider, string returnUrl = "/Identity/Account/Manage")
+        public IActionResult OnPost(string provider, string returnUrl = null)
         {
             // Request a redirect to the external login provider.
-            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
+            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl="" });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
-
-        public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = "/Identity/Account/Manage", string remoteError = null)
+    
+        public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
             
-            returnUrl = returnUrl ?? Url.Content("~/Identity/Account/Manage");
+            returnUrl = returnUrl?? Url.Content("~/Home/Index");
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
@@ -87,11 +87,10 @@ namespace MovieInformation.Areas.Identity.Pages.Account
                 ErrorMessage = "Error loading external login information.";
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
-            var identifierc = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
-            var picturef = $"https://graph.facebook.com/{identifierc}/picture?type=large";
+
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
-            if (result.Succeeded)   
+            if (result.Succeeded)
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
@@ -101,43 +100,45 @@ namespace MovieInformation.Areas.Identity.Pages.Account
                 return RedirectToPage("./Lockout");
             }
             else
-            {
+            {             
                 // If the user does not have an account, then ask the user to create an account.
-                ViewData["ReturnUrl"] = returnUrl;
-                ViewData["LoginProvider"] = info.LoginProvider;
-                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                var name = info.Principal.FindFirstValue(ClaimTypes.Name);
-                var dob = info.Principal.FindFirstValue(ClaimTypes.DateOfBirth);
-                var gender = info.Principal.FindFirstValue(ClaimTypes.Gender);
-                var identifier = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
-                var picture = $"https://graph.facebook.com/{identifier}/picture?type=large";
-                Input = new InputModel
+                ReturnUrl = returnUrl;
+                LoginProvider = info.LoginProvider;
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email)?? "";
+                var name = info.Principal.FindFirstValue(ClaimTypes.Name) ?? "";
+                var dob = info.Principal.FindFirstValue(ClaimTypes.DateOfBirth) ?? "";
+                var gender = info.Principal.FindFirstValue(ClaimTypes.Gender) ?? "";
+                var identifier = info.Principal.FindFirstValue(ClaimTypes.NameIdentifier) ?? "";
+                string picture;
+                switch (LoginProvider)
+                {
+                    case "Facebook":
+                        picture = $"https://graph.facebook.com/{identifier}/picture?type=large";
+                        break;
+                    case "Google":                        
+                            picture = info.Principal.FindFirstValue("picture");
+                            break;                    
+                    default:
+                        picture = "";
+                        break;
+                }
+                
+                Input= new InputModel
                 {
                     Email = email, //User Email  
                     Name = name, //user Display Name  
-                    DOB = dob.ToString(), //User DOB  
+                    Birthday = dob.ToString(), //User DOB  
                     Gender = gender, //User Gender  
                     Picture = picture //User Profile Image  
                 };
                 return Page();
-              
-               
-                //ReturnUrl = returnUrl;
-                //LoginProvider = info.LoginProvider;
-                //if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
-                //{
-                //    Input = new InputModel
-                //    {
-                //        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                //    };
-                //}
-                //return Page();
+                
             }
         }
 
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl = returnUrl ?? Url.Content("~/Home/Index");
             // Get the information about the user from the external login provider
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
@@ -148,7 +149,7 @@ namespace MovieInformation.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new MovieInformationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new MovieInformationUser { UserName = Input.Email, Email = Input.Email, Nickname=Input.Name,Birthday=Input.Birthday,Gender=Input.Gender,Picture=Input.Picture };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -157,23 +158,23 @@ namespace MovieInformation.Areas.Identity.Pages.Account
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
-                        var userId = await _userManager.GetUserIdAsync(user);
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                        var callbackUrl = Url.Page(
-                            "/Account/ConfirmEmail",
-                            pageHandler: null,
-                            values: new { area = "Identity", userId = userId, code = code },
-                            protocol: Request.Scheme);
+                        //var userId = await _userManager.GetUserIdAsync(user);
+                        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                        //var callbackUrl = Url.Page(
+                        //    "/Account/ConfirmEmail",
+                        //    pageHandler: null,
+                        //    values: new { area = "Identity", userId = userId, code = code },
+                        //    protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                        // If account confirmation is required, we need to show the link if we don't have a real email sender
-                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                        {
-                            return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
-                        }
+                        //// If account confirmation is required, we need to show the link if we don't have a real email sender
+                        //if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        //{
+                        //    return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                        //}
 
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
 

@@ -29,18 +29,20 @@ namespace MovieInformation.Controllers
                     return Redirect(item.href);                                       
                 }
             }
-            return RedirectToAction("Index","Home"); ;           
+            return RedirectToAction("Home"); ;           
         }      
         [HttpGet]        
         public async Task<IActionResult> ExecutePayment(string paymentId, string token, string PayerID)
         {
             Payment result = await _paymentPaypal.ExecutePayment(PayerID, paymentId);
-            return RedirectToAction("PaySuccess","Home");
+            string amount = result.transactions.FirstOrDefault().amount.total ?? "";
+            string currency = result.transactions.FirstOrDefault().amount.currency ?? "";
+            return RedirectToAction("CreatePayment", "Payment", new { Amount =amount, Currency= currency});
         }
         [HttpGet]        
         public async Task<IActionResult> CancelPayment()
         {
-            return  RedirectToAction("Index","Home");
+            return  RedirectToAction("Home");
         }
     }
 }

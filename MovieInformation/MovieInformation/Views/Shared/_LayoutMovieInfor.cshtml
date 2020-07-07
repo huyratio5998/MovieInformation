@@ -2,9 +2,7 @@
 @{
     Layout = null;
 }
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<MovieInformationUser> SignInManager
-@inject UserManager<MovieInformationUser> UserManager
+
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 
@@ -70,18 +68,13 @@
                     <button type="submit">Login</button>
                 </div>
             </form>
-            <form>
-                <div class="row">
-                    <p>Or via social</p>
-                    <div class="social-btn-2">
-                        <a class="fb" href="#"><i class="ion-social-facebook"></i>Facebook</a>
-                        <a class="tw" href="#"><i class="ion-social-google"></i>Google</a>
-                        <a class="tw" href="#"><i class="ion-social-twitter"></i>Microsoft</a>
-                        <a class="tw" href="#"><i class="ion-social-google"></i>Zalo</a>
-                    </div>
+            <div class="row">
+                <p>Or via social</p>
+                <div class="social-btn-2">
+                    <a class="fb" href="#"><i class="ion-social-facebook"></i>Facebook</a>
+                    <a class="tw" href="#"><i class="ion-social-twitter"></i>twitter</a>
                 </div>
-            </form>
-         
+            </div>
         </div>
     </div>
     <!--end of login form popup-->
@@ -146,7 +139,8 @@
                             <a href="#page-top"></a>
                         </li>
                         <li>@Html.ActionLink("Home","Index","Home")</li>                        
-                        <li>@Html.ActionLink("Movies", "Index", "Movies")</li>                                                               <li>@Html.ActionLink("Demo Payment","CreatePayment","PaymentPaypal")</li>    
+                        <li>@Html.ActionLink("Movies", "Index", "Movies")</li>                                           
+                        <li>@Html.ActionLink("VipAccount","CreatePayment","PaymentPaypal")</li>
                         <li class="dropdown first">
                             <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                                 celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
@@ -192,30 +186,9 @@
                             </ul>
                         </li>
                         <li><a href="#">Help</a></li>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            <li class="nav-item">
-                                <img src="https://graph.facebook.com/2482814241819172/picture?type=large" style="width: 30px; height: auto;" alt="Alternate Text" />
-                            </li>
-                            <li class="nav-item">
-                                <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-                            </li>
-                            <li class="nav-item">
-                                <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                    <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                                </form>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="loginLink">
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                            </li>
-                            <li class="btn signupLink"> 
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Sign up</a>
-                                </li> 
-                        }
-                                                                     
+                        <partial name="_LoginPartial" />
+                        @*<li class="loginLink"><a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a></li>
+                        <li class="btn signupLink">  <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Sign up</a></li>*@
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
