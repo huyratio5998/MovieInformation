@@ -12,6 +12,6 @@ namespace MovieInformation.Models
         public string Birthday { get; set; }
         public string Picture { get; set; }
         public string Nickname { get; set; }
-        public string Gender { get; set; }
+        public string Gender { get; set; }        
     }
 }

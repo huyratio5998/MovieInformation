@@ -35,7 +35,9 @@ namespace MovieInformation.Controllers
         public async Task<IActionResult> ExecutePayment(string paymentId, string token, string PayerID)
         {
             Payment result = await _paymentPaypal.ExecutePayment(PayerID, paymentId);
-            return Ok(result);
+            string amount = result.transactions.FirstOrDefault().amount.total ?? "";
+            string currency = result.transactions.FirstOrDefault().amount.currency ?? "";
+            return RedirectToAction("CreatePayment", "Payment", new { Amount =amount, Currency= currency});
         }
         [HttpGet]        
         public async Task<IActionResult> CancelPayment()

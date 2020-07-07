@@ -37,4 +37,10 @@
     </Content>
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Repositories\Interfaces\" />
+    <Folder Include="Repositories\ClassImp\" />
+  </ItemGroup>
+
 </Project>
