@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -22,15 +23,20 @@ namespace MovieInformation.Controllers
         private readonly ApplicationDbContext _context;
         private IMovieService movieService;
         private readonly IConfiguration _config;
-
+        private UserManager<MovieInformationUser> _userManager;
+        private readonly IPaymentService _paymentService;
         private readonly string _api_key;
         // GET: Movies
-        public MoviesController(ApplicationDbContext context, IMovieService movieService, IConfiguration config)
+        public MoviesController(ApplicationDbContext context, IMovieService movieService, IConfiguration config,
+               UserManager<MovieInformationUser> userManager,  IPaymentService paymentService
+            )
         {
             _context = context;
             this.movieService = movieService;
             _config = config;
             _api_key= _config.GetValue<string>("AppSettings:Api_Key");
+            _userManager = userManager;
+            _paymentService = paymentService;
         }
         public async Task<MoviePopularResponse> GetPopularMovies(int page = 1)
         {
@@ -44,6 +50,14 @@ namespace MovieInformation.Controllers
         }      
         public async Task<IActionResult> Detail(string movieId)
         {
+            var user = await _userManager.GetUserAsync(User);
+            bool isVipUser = false;
+            if (user != null)
+            {
+                isVipUser = _paymentService.CheckUserVipAccount(user.Id);
+            };
+            ViewBag.IsUserVip = isVipUser;
+            #region request Model
             MovieRequest request = new MovieRequest();
             request.Api_key = _api_key;
             request.Language = "en-US";
@@ -65,8 +79,8 @@ namespace MovieInformation.Controllers
             MovieRequest requestImage = new MovieRequest();
             requestImage.Api_key = _api_key;
             requestImage.Movie_id = movieId;
-            
-            //
+            #endregion
+
             var lstKeywordMovies = await movieService.GetKeywordMovies(requestKeyword);
             var lstVideoMovies = await movieService.GetVideosMovies(requestVideo);
             var lstImageMovies = await movieService.GetImagesMovies(requestImage);
@@ -96,6 +110,13 @@ namespace MovieInformation.Controllers
         }     
         public async Task<IActionResult> Index(int page=1,string option="")
         {
+            var user = await _userManager.GetUserAsync(User);
+            bool isVipUser = false;
+            if (user != null)
+            {
+                isVipUser = _paymentService.CheckUserVipAccount(user.Id);
+            };
+            ViewBag.IsUserVip = isVipUser;
             var lstMovies = await GetPopularMovies(page);            
             switch (option)
             {
@@ -122,112 +143,6 @@ namespace MovieInformation.Controllers
         }
     
 
-        // GET: Movies/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Movies/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,name,displayName,imageUrl,author,times,userScore,trailerUrl,descriptions,dateRelease,modifiedDate,CreatedDate")] Movie movie)
-        {
-            if (ModelState.IsValid)
-            {
-                movie.id = Guid.NewGuid();
-                _context.Add(movie);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(movie);
-        }
-
-        // GET: Movies/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var movie = await _context.Movies.FindAsync(id);
-            if (movie == null)
-            {
-                return NotFound();
-            }
-            return View(movie);
-        }
-
-        // POST: Movies/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("id,name,displayName,imageUrl,author,times,userScore,trailerUrl,descriptions,dateRelease,modifiedDate,CreatedDate")] Movie movie)
-        {
-            if (id != movie.id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(movie);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MovieExists(movie.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(movie);
-        }
-
-        // GET: Movies/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var movie = await _context.Movies
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (movie == null)
-            {
-                return NotFound();
-            }
-
-            return View(movie);
-        }
-
-        // POST: Movies/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var movie = await _context.Movies.FindAsync(id);
-            _context.Movies.Remove(movie);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool MovieExists(Guid id)
-        {
-            return _context.Movies.Any(e => e.id == id);
-        }
+       
     }
 }

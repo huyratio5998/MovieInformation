@@ -50,7 +50,8 @@ namespace MovieInformation.Services.ClassImp
         public bool CheckUserVipAccount(string Id)
         {
             Guid id = Guid.Parse(Id);
-            var check = _context.Payments.FirstOrDefault(x => x.userId==id);
+            var times = DateTime.Now.ToUniversalTime();
+            var check = _context.Payments.FirstOrDefault(x => x.userId==id&& x.expireDate>=times);
             if (check!=null) return true;
             return false;
         }

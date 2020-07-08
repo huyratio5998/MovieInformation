@@ -31,7 +31,7 @@
                     <div class="movie-btn">
                         <div class="btn-transform transform-vertical red">
                             <div><a href="#" class="item item-1 redbtn"> <i class="ion-play"></i> Watch Trailer</a></div>
-                            <div><a href="https://www.youtube.com/embed/o-0hcF97wy0" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
+                            <div><a href="https://www.youtube.com/embed/@videos[0].Key" class="item item-2 redbtn fancybox-media hvr-grow"><i class="ion-play"></i></a></div>
                         </div>
                         <div class="btn-transform transform-vertical">
                             <div><a href="#" class="item item-1 yellowbtn"> <i class="ion-card"></i> Buy ticket</a></div>
@@ -217,7 +217,7 @@
                                         <div class="rv-hd">
                                             <div class="div">
                                                 <h3>Related Movies To</h3>
-                                                <h2>Skyfall: Quantum of Spectre</h2>
+                                                <h2>@Model.Title</h2>
                                             </div>
                                             <a href="#" class="redbtn">Write Review</a>
                                         </div>
@@ -394,7 +394,7 @@
                                 <div id="cast" class="tab">
                                     <div class="row">
                                         <h3>Cast & Crew of</h3>
-                                        <h2>Avengers: Age of Ultron</h2>
+                                        <h2>@Model.Title</h2>
                                         <!-- //== -->
                                         <div class="title-hd-sm">
                                             <h4>Directors & Credit Writers</h4>
@@ -587,7 +587,7 @@
                                         <div class="rv-hd">
                                             <div>
                                                 <h3>Videos & Photos of</h3>
-                                                <h2>Skyfall: Quantum of Spectre</h2>
+                                                <h2>@Model.Title</h2>
                                             </div>
                                         </div>
                                         <div class="title-hd-sm">
@@ -598,8 +598,8 @@
                                             {
                                                 <div class="vd-item">
                                                     <div class="vd-it">
-                                                        <img class="vd-img" src="~/images/uploads/vd-item3.jpg" alt="">
-                                                        @*<img class="vd-img" src="https://image.tmdb.org/t/p/original/@(item.PosterPath)" alt="">*@
+                                                        @*<img class="vd-img" src="~/images/uploads/vd-item3.jpg" alt="">*@
+                                                        <img class="vd-img" src="https://i.ytimg.com/vi/@item.Key/hqdefault.jpg" alt="">
                                                         <a class="fancybox-media hvr-grow" href="https://www.youtube.com/embed/@item.Key"><img src="~/images/uploads/play-vd.png" alt=""></a>
                                                     </div>
                                                     <div class="vd-infor">
@@ -638,7 +638,7 @@
                                 <div id="moviesrelated" class="tab">
                                     <div class="row">
                                         <h3>Related Movies To</h3>
-                                        <h2>Skyfall: Quantum of Spectre</h2>
+                                        <h2>@Model.Title</h2>
                                         <div class="topbar-filter">
                                             <p>Found <span>12 movies</span> in total</p>
                                             <label>Sort by:</label>

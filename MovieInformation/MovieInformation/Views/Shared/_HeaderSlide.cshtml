@@ -1,7 +1,7 @@
 ﻿@model MovieInformation.Services.ApiModels.Responses.MoviePopularResponse
 @{ 
     MovieInformation.Services.ApiModels.Responses.GenreResponse lstGenres = ViewBag.lstGenres;
-
+     var videos = ViewBag.Videos;
  }
 <div class="row">
     <div class="slider-single-item">
@@ -34,7 +34,7 @@
                                 </a>
                             </h1>
                             <div class="social-btn">
-                                <a href="#" class="parent-btn"><i class="ion-play"></i> Watch Trailer</a>
+                                <a href="https://www.youtube.com/embed/DSCKfXpAGHc" class="parent-btn"><i class="ion-play"></i> Watch Trailer</a>
                                 <a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
                                 <div class="hover-bnt">
                                     <a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>share</a>

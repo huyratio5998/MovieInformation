@@ -383,10 +383,7 @@ C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieIn
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Views\Home\PaySuccess.cshtml.g.cs
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
-C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Views\Movies\Create.cshtml.g.cs
-C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Views\Movies\Delete.cshtml.g.cs
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Views\Movies\Detail.cshtml.g.cs
-C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Views\Movies\Edit.cshtml.g.cs
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Views\Movies\Index.cshtml.g.cs
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Views\Shared\ListMoviePopular.cshtml.g.cs
@@ -404,3 +401,4 @@ C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieIn
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.csproj.CopyComplete
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.dll
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.pdb
+C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\Index.cshtml.g.cs
