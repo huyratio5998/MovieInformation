@@ -6,7 +6,7 @@ using MovieInformation.Models.Email;
 
 namespace MovieInformation.Services.Interfaces
 {
-    public interface IEmailSender
+    public interface IEmailSenderService
     {
         void SendEmail(Message message);
         Task SendEmailAsync(Message message);

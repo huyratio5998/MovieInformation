@@ -13,8 +13,12 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MovieInformation.Models;
+using MovieInformation.Services.ApiModels.Requests;
+using MovieInformation.Services.ApiModels.Responses;
+using MovieInformation.Services.Interfaces;
 
 namespace MovieInformation.Areas.Identity.Pages.Account
 {
@@ -25,17 +29,24 @@ namespace MovieInformation.Areas.Identity.Pages.Account
         private readonly UserManager<MovieInformationUser> _userManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private  IUserSessionService _userSessionService;
+        private readonly string _api_key;
+        private readonly IConfiguration _config;
 
         public ExternalLoginModel(
             SignInManager<MovieInformationUser> signInManager,
             UserManager<MovieInformationUser> userManager,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, IUserSessionService userSessionService,
+            IConfiguration config)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
+            _config = config;
             _emailSender = emailSender;
+            _userSessionService = userSessionService;
+            _api_key = _config.GetValue<string>("AppSettings:Api_Key");
         }
 
         [BindProperty]
@@ -92,7 +103,19 @@ namespace MovieInformation.Areas.Identity.Pages.Account
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
             if (result.Succeeded)
             {
+                // create new guessSession when login
+                //var user = await _userManager.GetUserAsync(User);
+                //if (user == null)
+                //{
+                //    return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                //}
+                //MovieRequest request = new MovieRequest();
+                //request.Api_key = _api_key;
+                //var createGuessSession =await _userSessionService.CreateGuessSession(request);
+                //user.Guest_session_id = createGuessSession.Guest_session_id;                
+                //var update = await _userManager.UpdateAsync(user);               
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+
                 return LocalRedirect(returnUrl);
             }
             if (result.IsLockedOut)
@@ -161,24 +184,34 @@ namespace MovieInformation.Areas.Identity.Pages.Account
                         var userId = await _userManager.GetUserIdAsync(user);
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                        var callbackUrl = Url.Page(
-                            "/Account/ConfirmEmail",
-                            pageHandler: null,
-                            values: new { area = "Identity", userId = userId, code = code },
-                            protocol: Request.Scheme);
+                        //var callbackUrl = Url.Page(
+                        //    "/Account/ConfirmEmail",
+                        //    pageHandler: null,
+                        //    values: new { area = "Identity", userId = userId, code = code },
+                        //    protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
-                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        //if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        //{
+                        //    return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                        //}
+
+                        var currentUser = await _userManager.FindByIdAsync(userId);
+                        if (currentUser == null)
                         {
-                            return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                            return NotFound($"Unable to load user with ID '{userId}'.");
                         }
 
-                        await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
-
-                        return LocalRedirect(returnUrl);
+                        var currentCode = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+                        var confirmEmail = await _userManager.ConfirmEmailAsync(user, currentCode);
+                        if (confirmEmail.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
+                            return LocalRedirect(returnUrl);
+                        }
                     }
                 }
                 foreach (var error in result.Errors)

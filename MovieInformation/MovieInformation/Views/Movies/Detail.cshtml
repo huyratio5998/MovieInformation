@@ -1,5 +1,12 @@
 ﻿@model MovieInformation.Services.ApiModels.Responses.MovieDetailResponse;
-
+    <style>
+            .ratings .fa {
+                font-size: 40px;
+                color: #FF9800;
+                float: left;
+                cursor: pointer;
+            }       
+    </style>
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_LayoutMovieInfor.cshtml";
@@ -65,6 +72,19 @@
                         </div>
                         <div class="rate-star">
                             <p>Rate This Movie:  </p>
+                            @*#f5b50a*@
+                        @*<div class="ratings">
+                            <span class="fa fa-star-o"></span>
+                            <span class="fa fa-star-o"></span>
+                            <span class="fa fa-star-o"></span>
+                            <span class="fa fa-star-o"></span>
+                            <span class="fa fa-star-o"></span>
+                            <span class="fa fa-star-o"></span>
+                            <span class="fa fa-star-o"></span>
+                            <span class="fa fa-star-o"></span>
+                            <span class="fa fa-star-o"></span>
+                            <span class="fa fa-star-o"></span>
+                        </div>*@
                             @{
                                 var count = Model.VoteAverage;
                                 int i = 0;
@@ -72,14 +92,14 @@
                                 {
                                     if (i < (int)count)
                                     {
-                                        <i class="ion-ios-star"></i>
+                                        <i class="ion-ios-star" ></i>
                                         i++;
                                     }
                                     else
                                     {
-                                        <i class="ion-ios-star-outline"></i>
+                                        <i class="ion-ios-star-outline" ></i>
                                         i++;
-                                    }                                  
+                                    }
                                     if (i == 10) break;
                                 }
                             }
@@ -651,17 +671,21 @@
                                                 <option value="date">Release date Ascending</option>
                                             </select>
                                         </div>
-                                        <div class="movie-item-style-2">
-                                            <img src="~/images/uploads/mv1.jpg" alt="">
-                                            <div class="mv-item-infor">
-                                                <h6><a href="#">oblivion <span>(2012)</span></a></h6>
-                                                <p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
-                                                <p class="describe">Earth's mightiest heroes must come together and learn to fight as a team if they are to stop the mischievous Loki and his alien army from enslaving humanity...</p>
-                                                <p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
-                                                <p>Director: <a href="#">Joss Whedon</a></p>
-                                                <p>Stars: <a href="#">Robert Downey Jr.,</a> <a href="#">Chris Evans,</a> <a href="#">  Chris Hemsworth</a></p>
+                                        @*@foreach (var item in ViewBag.RecommendationMovies)
+                                        {*@
+                                            <div class="movie-item-style-2">
+                                                <img src="~/images/uploads/mv1.jpg" alt="">
+                                                <div class="mv-item-infor">
+                                                    <h6><a href="#">oblivion <span>(2012)</span></a></h6>
+                                                    <p class="rate"><i class="ion-android-star"></i><span>8.1</span> /10</p>
+                                                    <p class="describe">Earth's mightiest heroes must come together and learn to fight as a team if they are to stop the mischievous Loki and his alien army from enslaving humanity...</p>
+                                                    <p class="run-time"> Run Time: 2h21’    .     <span>MMPA: PG-13 </span>    .     <span>Release: 1 May 2015</span></p>
+                                                    <p>Director: <a href="#">Joss Whedon</a></p>
+                                                    <p>Stars: <a href="#">Robert Downey Jr.,</a> <a href="#">Chris Evans,</a> <a href="#">  Chris Hemsworth</a></p>
+                                                </div>
                                             </div>
-                                        </div>
+                                        @*  *@}
+
                                         <div class="movie-item-style-2">
                                             <img src="~/images/uploads/mv2.jpg" alt="">
                                             <div class="mv-item-infor">
@@ -729,3 +753,47 @@
         </div>
     </div>
 </div>
+@*<script type="text/javascript">
+    const stars = document.querySelector(".ratings").children;
+    let index;
+     for(let i=0; i<stars.length; i++){
+  	stars[i].addEventListener("mouseover",function(){
+  		 // console.log(i)
+  		 for(let j=0; j<stars.length; j++){
+  		 	stars[j].classList.remove("fa-star");		 	
+            stars[j].classList.add("fa-star-o");		 	
+  		 }
+  		 for(let j=0; j<=i; j++){
+  		 	stars[j].classList.remove("fa-star-o");		 	
+           stars[j].classList.add("fa-star");		 	
+  		 }
+  	})
+         stars[i].addEventListener("click", function () {
+            $.ajax({
+        url: "/Movies/RatingMovieInformation",
+        type: 'GET',
+        data: {
+            movieId : @Model.
+                }
+        success: function(res) {
+            console.log(res);
+            alert("Rating successfully!");
+        }
+    });
+      ratingValue.value=i+1;
+      index=i;
+  	})
+  	stars[i].addEventListener("mouseout",function(){
+  		 
+  		 for(let j=0; j<stars.length; j++){
+  		 	stars[j].classList.remove("fa-star");		 	
+            stars[j].classList.add("fa-star-o");		 	
+  		 }
+  		 for(let j=0; j<=index; j++){
+  		 	stars[j].classList.remove("fa-star-o");		 	
+           stars[j].classList.add("fa-star");		 	
+  		 }
+  	})
+  }
+
+</script>*@

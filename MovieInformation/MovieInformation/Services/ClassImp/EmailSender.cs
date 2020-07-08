@@ -10,7 +10,7 @@ using MovieInformation.Services.Interfaces;
 
 namespace MovieInformation.Services.ClassImp
 {
-    public class EmailSender : IEmailSender
+    public class EmailSender : IEmailSenderService
     {
         private readonly EmailConfiguration _emailConfig;
 

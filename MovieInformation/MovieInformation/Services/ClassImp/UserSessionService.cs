@@ -23,11 +23,11 @@ namespace MovieInformation.Services.ClassImp
             string uri = $"authentication/guest_session/new?api_key={request.Api_key}";
             return ApiHelper.GetMovieApi<GuessSessionResponse>(uri, _httpClient);
         }
-        public Task<GuessSessionResponse> GetRatedMovie(MovieRequest request, string sortBy)
+        public Task<RatedMoviesResponse> GetRatedMovie(MovieRequest request, string sortBy)
         {
 
             string uri = $"/guest_session/{request.Guest_session_id}/rated/movies? api_key = {request.Api_key} & language = {request.Language} & sort_by = {sortBy}";
-            return ApiHelper.GetMovieApi<GuessSessionResponse>(uri, _httpClient);
+            return ApiHelper.GetMovieApi<RatedMoviesResponse>(uri, _httpClient);
         }
         
     }

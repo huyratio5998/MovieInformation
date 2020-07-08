@@ -57,6 +57,7 @@ namespace MovieInformation.Controllers
                 isVipUser = _paymentService.CheckUserVipAccount(user.Id);
             };
             ViewBag.IsUserVip = isVipUser;
+            ViewBag.GuestSession = user.Guest_session_id;
             #region request Model
             MovieRequest request = new MovieRequest();
             request.Api_key = _api_key;
@@ -79,11 +80,16 @@ namespace MovieInformation.Controllers
             MovieRequest requestImage = new MovieRequest();
             requestImage.Api_key = _api_key;
             requestImage.Movie_id = movieId;
+            //
+            MovieRequest requestRecommendations= new MovieRequest();
+            requestImage.Api_key = _api_key;
+            requestImage.Movie_id = movieId;
             #endregion
 
             var lstKeywordMovies = await movieService.GetKeywordMovies(requestKeyword);
             var lstVideoMovies = await movieService.GetVideosMovies(requestVideo);
             var lstImageMovies = await movieService.GetImagesMovies(requestImage);
+            var lstRecommendations = await movieService.GetRecommendationsMovies(requestRecommendations);
             var movieDetail = movieService.GetMovieDetail(request);    
             
             MovieCreditsResponse lstCredits= await movieService.GetCreditsMovies(requestCast);
@@ -95,19 +101,20 @@ namespace MovieInformation.Controllers
             ViewBag.Videos = lstVideoMovies.Results.Take(8).ToList();
             ViewBag.Backdrops = lstImageMovies.Backdrops.Take(14).ToList();
             ViewBag.Posters = lstImageMovies.Posters.Take(7).ToList();
+            ViewBag.RecommendationMovies = lstRecommendations.Results.Take(5).ToList();
             return View("Detail", await movieDetail);
         }
         //
         
-        public  bool RatingMovieInformation()
-        {
-            MovieRequest request = new MovieRequest();
-            request.Api_key = _api_key;
-            request.Movie_id = "1444";
-            request.Guest_session_id = "98fce7280d3315c15406f10e29b17c58";
-            var raintMovie =  movieService.RatingMovies(request,8.0);
-            return true;
-        }     
+        //public bool RatingMovieInformation(string movieId,string guestSessionId)
+        //{
+        //    MovieRequest request = new MovieRequest();
+        //    request.Api_key = _api_key;
+        //    request.Movie_id = "1444";
+        //    request.Guest_session_id = "98fce7280d3315c15406f10e29b17c58";
+        //    var raintMovie =  movieService.RatingMovies(request,8.0);
+        //    return true;
+        //}     
         public async Task<IActionResult> Index(int page=1,string option="")
         {
             var user = await _userManager.GetUserAsync(User);

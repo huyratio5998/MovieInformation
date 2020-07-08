@@ -10,6 +10,6 @@ namespace MovieInformation.Services.Interfaces
     public interface IUserSessionService
     {
         Task<GuessSessionResponse> CreateGuessSession(MovieRequest request);
-        Task<GuessSessionResponse> GetRatedMovie(MovieRequest request, string sortBy);
+        Task<RatedMoviesResponse> GetRatedMovie(MovieRequest request, string sortBy);
     }
 }
