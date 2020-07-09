@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieInformation.Data;
 
 namespace MovieInformation.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200709040224_update-MovieFavorites Model")]
+    partial class updateMovieFavoritesModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -319,8 +321,8 @@ namespace MovieInformation.Migrations
                     b.Property<string>("movieId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("userId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("id");
 

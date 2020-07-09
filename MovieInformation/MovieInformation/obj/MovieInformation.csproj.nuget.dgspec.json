@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Project\\PTIT\\ThayKhanh\\MovieInformation\\MovieInformation\\MovieInformation.csproj": {}
+    "C:\\Projects\\Sermester4_2\\PhatTrienPhanMemDichVu\\Project\\MovieInformation\\MovieInformation\\MovieInformation.csproj": {}
   },
   "projects": {
-    "C:\\Project\\PTIT\\ThayKhanh\\MovieInformation\\MovieInformation\\MovieInformation.csproj": {
+    "C:\\Projects\\Sermester4_2\\PhatTrienPhanMemDichVu\\Project\\MovieInformation\\MovieInformation\\MovieInformation.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Project\\PTIT\\ThayKhanh\\MovieInformation\\MovieInformation\\MovieInformation.csproj",
+        "projectUniqueName": "C:\\Projects\\Sermester4_2\\PhatTrienPhanMemDichVu\\Project\\MovieInformation\\MovieInformation\\MovieInformation.csproj",
         "projectName": "MovieInformation",
-        "projectPath": "C:\\Project\\PTIT\\ThayKhanh\\MovieInformation\\MovieInformation\\MovieInformation.csproj",
-        "packagesPath": "C:\\Users\\smart\\.nuget\\packages\\",
-        "outputPath": "C:\\Project\\PTIT\\ThayKhanh\\MovieInformation\\MovieInformation\\obj\\",
+        "projectPath": "C:\\Projects\\Sermester4_2\\PhatTrienPhanMemDichVu\\Project\\MovieInformation\\MovieInformation\\MovieInformation.csproj",
+        "packagesPath": "C:\\Users\\huyng\\.nuget\\packages\\",
+        "outputPath": "C:\\Projects\\Sermester4_2\\PhatTrienPhanMemDichVu\\Project\\MovieInformation\\MovieInformation\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\smart\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\huyng\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -25,10 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://sitecore.myget.org/F/sc-commerce-packages/api/v3/index.json": {},
-          "https://sitecore.myget.org/F/sc-packages/": {},
-          "https://sitecore.myget.org/F/sc-packages/api/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {

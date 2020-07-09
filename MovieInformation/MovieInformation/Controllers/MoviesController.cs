@@ -23,12 +23,17 @@ namespace MovieInformation.Controllers
         private readonly ApplicationDbContext _context;
         private IMovieService movieService;
         private readonly IConfiguration _config;
+        private readonly string _api_key;
         private UserManager<MovieInformationUser> _userManager;
         private readonly IPaymentService _paymentService;
-        private readonly string _api_key;
+        private readonly IMovieFavoritesService _movieFavoritesService;
+
+        private readonly Random _random = new Random();
         // GET: Movies
         public MoviesController(ApplicationDbContext context, IMovieService movieService, IConfiguration config,
-               UserManager<MovieInformationUser> userManager,  IPaymentService paymentService
+               UserManager<MovieInformationUser> userManager,  IPaymentService paymentService,
+               IMovieFavoritesService movieFavoritesService
+
             )
         {
             _context = context;
@@ -37,6 +42,7 @@ namespace MovieInformation.Controllers
             _api_key= _config.GetValue<string>("AppSettings:Api_Key");
             _userManager = userManager;
             _paymentService = paymentService;
+            _movieFavoritesService = movieFavoritesService;
         }
         public async Task<MoviePopularResponse> GetPopularMovies(int page = 1)
         {
@@ -47,17 +53,23 @@ namespace MovieInformation.Controllers
             request.Page = page;
             var lstMoviePopular = await movieService.GetPopularMovies(request);
             return lstMoviePopular;
-        }      
+        }    
+        
         public async Task<IActionResult> Detail(string movieId)
         {
             var user = await _userManager.GetUserAsync(User);
             bool isVipUser = false;
+            bool isFavoriteMovie = false;
             if (user != null)
             {
                 isVipUser = _paymentService.CheckUserVipAccount(user.Id);
+                isFavoriteMovie= _movieFavoritesService.CheckMovieFavoritesByUsreId(user.UserName, movieId);
             };
+            ViewBag.CurrentLoginId = user.Id;
             ViewBag.IsUserVip = isVipUser;
-            ViewBag.GuestSession = user.Guest_session_id;
+            ViewBag.IsFavorite = isFavoriteMovie;
+            ViewBag.CurrentUserName = user.UserName;
+            //ViewBag.GuestSession = user.Guest_session_id;
             #region request Model
             MovieRequest request = new MovieRequest();
             request.Api_key = _api_key;
@@ -82,14 +94,17 @@ namespace MovieInformation.Controllers
             requestImage.Movie_id = movieId;
             //
             MovieRequest requestRecommendations= new MovieRequest();
-            requestImage.Api_key = _api_key;
-            requestImage.Movie_id = movieId;
+            requestRecommendations.Api_key = _api_key;
+            requestRecommendations.Movie_id = movieId;
             #endregion
 
             var lstKeywordMovies = await movieService.GetKeywordMovies(requestKeyword);
             var lstVideoMovies = await movieService.GetVideosMovies(requestVideo);
             var lstImageMovies = await movieService.GetImagesMovies(requestImage);
-            var lstRecommendations = await movieService.GetRecommendationsMovies(requestRecommendations);
+            //
+            int num = _random.Next(10);
+            var lstMoviesRandom = await GetPopularMovies(num);
+            //var lstRecommendations = await movieService.GetRecommendationsMovies(requestRecommendations);
             var movieDetail = movieService.GetMovieDetail(request);    
             
             MovieCreditsResponse lstCredits= await movieService.GetCreditsMovies(requestCast);
@@ -101,7 +116,8 @@ namespace MovieInformation.Controllers
             ViewBag.Videos = lstVideoMovies.Results.Take(8).ToList();
             ViewBag.Backdrops = lstImageMovies.Backdrops.Take(14).ToList();
             ViewBag.Posters = lstImageMovies.Posters.Take(7).ToList();
-            ViewBag.RecommendationMovies = lstRecommendations.Results.Take(5).ToList();
+            ViewBag.RecommendationMovies = lstMoviesRandom.Results.Take(5).ToList();
+            //ViewBag.RecommendationMovies = lstRecommendations.Results.Take(5).ToList();
             return View("Detail", await movieDetail);
         }
         //

@@ -358,7 +358,6 @@ C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieIn
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.csprojAssemblyReference.cache
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\staticwebassets\MovieInformation.StaticWebAssets.Manifest.cache
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\staticwebassets\MovieInformation.StaticWebAssets.xml
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.MvcApplicationPartsAssemblyInfo.cs
@@ -604,3 +603,5 @@ C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\obj\Debug\netcoreapp
 C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.dll
 C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.pdb
 C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.g.cs
+C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.g.cs
+C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.csprojAssemblyReference.cache

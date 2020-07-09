@@ -15,6 +15,7 @@ namespace MovieInformation.Data
         public DbSet<MovieActor> MovieActors { get; set; }
         public DbSet<MovieCategory> MovieCategories { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<MovieFavorites> MovieFavorites { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
