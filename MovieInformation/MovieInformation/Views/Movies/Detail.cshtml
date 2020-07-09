@@ -1,25 +1,29 @@
 ﻿@model MovieInformation.Services.ApiModels.Responses.MovieDetailResponse;
-    <style>
-            .ratings .fa {
-                font-size: 40px;
-                color: #FF9800;
-                float: left;
-                cursor: pointer;
-            }       
-    </style>
+<style>
+    .ratings .fa {
+        font-size: 40px;
+        color: #FF9800;
+        float: left;
+        cursor: pointer;
+    }
+</style>
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_LayoutMovieInfor.cshtml";
-    MovieInformation.Services.ApiModels.Responses.MovieCreditsResponse credits= ViewBag.Credits;
-    MovieInformation.Services.ApiModels.Responses.MovieKeywordRespone keywords= ViewBag.Keywords;
+    MovieInformation.Services.ApiModels.Responses.MovieCreditsResponse credits = ViewBag.Credits;
+    MovieInformation.Services.ApiModels.Responses.MovieKeywordRespone keywords = ViewBag.Keywords;
     var videos = ViewBag.Videos;
     var imagesBackdrops = ViewBag.Backdrops;
-    var imagesPosters= ViewBag.Posters;     
+    var imagesPosters = ViewBag.Posters;
 }
+<div>
+    <input type="hidden" name="movieFavorites" id="currentLoginId" value="@ViewBag.CurrentLoginId" />
+</div>
 <div class="hero mv-single-hero">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+
                 <!-- <h1> movie listing - list</h1>
                 <ul class="breadcumb">
                     <li class="active"><a href="#">Home</a></li>
@@ -53,11 +57,11 @@
                     <div class="social-btn">
                         @if (ViewBag.IsFavorite)
                         {
-                            <a href="#" id="delete-favorite" class="parent-btn"><i class="ion-heart" style="background-color:yellow" id="favorite-icon"></i>Favorited</a>
+                            <a href="" id="delete-favorite" class="parent-btn"><i class="ion-heart" style="background-color:yellow" id="favorite-icon"></i>Favorited</a>
                         }
                         else
                         {
-                            <a href="#" id="add-favorite" class="parent-btn"><i class="ion-heart" id="favorite-icon"></i> Add to Favorite</a>
+                            <a href="" id="add-favorite" class="parent-btn"><i class="ion-heart" id="favorite-icon"></i> Add to Favorite</a>
                         }
 
                         <div class="hover-bnt">
@@ -81,18 +85,18 @@
                         <div class="rate-star">
                             <p>Rate This Movie:  </p>
                             @*#f5b50a*@
-                        @*<div class="ratings">
-                            <span class="fa fa-star-o"></span>
-                            <span class="fa fa-star-o"></span>
-                            <span class="fa fa-star-o"></span>
-                            <span class="fa fa-star-o"></span>
-                            <span class="fa fa-star-o"></span>
-                            <span class="fa fa-star-o"></span>
-                            <span class="fa fa-star-o"></span>
-                            <span class="fa fa-star-o"></span>
-                            <span class="fa fa-star-o"></span>
-                            <span class="fa fa-star-o"></span>
-                        </div>*@
+                            @*<div class="ratings">
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                    <span class="fa fa-star-o"></span>
+                                </div>*@
                             @{
                                 var count = Model.VoteAverage;
                                 int i = 0;
@@ -100,12 +104,12 @@
                                 {
                                     if (i < (int)count)
                                     {
-                                        <i class="ion-ios-star" ></i>
+                                        <i class="ion-ios-star"></i>
                                         i++;
                                     }
                                     else
                                     {
-                                        <i class="ion-ios-star-outline" ></i>
+                                        <i class="ion-ios-star-outline"></i>
                                         i++;
                                     }
                                     if (i == 10) break;
@@ -146,15 +150,16 @@
                                             </div>
                                             <!-- movie cast -->
                                             <div class="mvcast-item">
-                                                @foreach(var item in credits.Cast.Take(8)){
-                                                <div class="cast-it">
-                                                    <div class="cast-left">
-                                                        <img src="https://image.tmdb.org/t/p/w500/@(item.ProfilePath)" alt="" style="width:40px;height:auto;">
-                                                        <a href="#">@item.Name</a>
+                                                @foreach (var item in credits.Cast.Take(8))
+                                                {
+                                                    <div class="cast-it">
+                                                        <div class="cast-left">
+                                                            <img src="https://image.tmdb.org/t/p/w500/@(item.ProfilePath)" alt="" style="width:40px;height:auto;">
+                                                            <a href="#">@item.Name</a>
+                                                        </div>
+                                                        <p>...  @item.Character</p>
                                                     </div>
-                                                    <p>...  @item.Character</p>
-                                                </div>
-                                                }                                             
+                                                }
 
                                             </div>
                                             <div class="title-hd-sm">
@@ -231,7 +236,7 @@
                                                     @foreach (var item in keywords.Keywords)
                                                     {
                                                         <span class="time"><a href="#">@item.Name</a></span>
-                                                    }                                                   
+                                                    }
                                                 </p>
                                             </div>
                                             <div class="ads">
@@ -638,7 +643,7 @@
                                             }
                                         </div>
                                         <div class="title-hd-sm">
-                                            <h4>Photos Backdrops <span> (@imagesBackdrops.Count)</span></h4>                                            
+                                            <h4>Photos Backdrops <span> (@imagesBackdrops.Count)</span></h4>
                                         </div>
                                         <div class="mvsingle-item">
                                             @foreach (var item in imagesBackdrops)
@@ -688,11 +693,12 @@
                                                     <p class="rate"><i class="ion-android-star"></i><span> @item.VoteAverage</span> /10</p>
                                                     <p class="describe">@item.Overview</p>
                                                     <p class="run-time"> Vote Count: @item.VoteCount    .     <span>Popularity: @item.Popularity </span>    .     <span>Language: @item.OriginalLanguage</span></p>
-                                                    @if (item.Adult) { <p>Adult</p>}
+                                                    @if (item.Adult)
+                                                    {<p>Adult</p>}
                                                     <p>Stars: <a href="#">Robert Downey Jr.,</a> <a href="#">Chris Evans,</a> <a href="#">  Chris Hemsworth</a></p>
                                                 </div>
                                             </div>
-                                      }                                      
+                                        }
                                         <div class="topbar-filter">
                                             <label>Movies per page:</label>
                                             <select>
@@ -701,7 +707,7 @@
                                             </select>
                                             <div class="pagination2">
                                                 <span>Page 1 of 1:</span>
-                                                <a class="active" href="#">1</a>                                                
+                                                <a class="active" href="#">1</a>
                                                 <a href="#"><i class="ion-arrow-right-b"></i></a>
                                             </div>
                                         </div>
@@ -716,73 +722,87 @@
     </div>
 </div>
 @*<script type="text/javascript">
-    const stars = document.querySelector(".ratings").children;
-    let index;
-     for(let i=0; i<stars.length; i++){
-  	stars[i].addEventListener("mouseover",function(){
-  		 // console.log(i)
-  		 for(let j=0; j<stars.length; j++){
-  		 	stars[j].classList.remove("fa-star");		 	
-            stars[j].classList.add("fa-star-o");		 	
-  		 }
-  		 for(let j=0; j<=i; j++){
-  		 	stars[j].classList.remove("fa-star-o");		 	
-           stars[j].classList.add("fa-star");		 	
-  		 }
-  	})
-         stars[i].addEventListener("click", function () {
-            $.ajax({
-        url: "/Movies/RatingMovieInformation",
-        type: 'GET',
-        data: {
-            movieId : @Model.
-                }
-        success: function(res) {
-            console.log(res);
-            alert("Rating successfully!");
-        }
-    });
-      ratingValue.value=i+1;
-      index=i;
-  	})
-  	stars[i].addEventListener("mouseout",function(){
-  		 
-  		 for(let j=0; j<stars.length; j++){
-  		 	stars[j].classList.remove("fa-star");		 	
-            stars[j].classList.add("fa-star-o");		 	
-  		 }
-  		 for(let j=0; j<=index; j++){
-  		 	stars[j].classList.remove("fa-star-o");		 	
-           stars[j].classList.add("fa-star");		 	
-  		 }
-  	})
-  }
+        const stars = document.querySelector(".ratings").children;
+        let index;
+         for(let i=0; i<stars.length; i++){
+        stars[i].addEventListener("mouseover",function(){
+             // console.log(i)
+             for(let j=0; j<stars.length; j++){
+                stars[j].classList.remove("fa-star");
+                stars[j].classList.add("fa-star-o");
+             }
+             for(let j=0; j<=i; j++){
+                stars[j].classList.remove("fa-star-o");
+               stars[j].classList.add("fa-star");
+             }
+        })
+             stars[i].addEventListener("click", function () {
+                $.ajax({
+            url: "/Movies/RatingMovieInformation",
+            type: 'GET',
+            data: {
+                movieId : @Model.
+                    }
+            success: function(res) {
+                console.log(res);
+                alert("Rating successfully!");
+            }
+        });
+          ratingValue.value=i+1;
+          index=i;
+        })
+        stars[i].addEventListener("mouseout",function(){
 
-</script>*@
+             for(let j=0; j<stars.length; j++){
+                stars[j].classList.remove("fa-star");
+                stars[j].classList.add("fa-star-o");
+             }
+             for(let j=0; j<=index; j++){
+                stars[j].classList.remove("fa-star-o");
+               stars[j].classList.add("fa-star");
+             }
+        })
+      }
 
-<script type="text/javascript">    
-    var userId = @ViewBag.CurrentUserName;
-        var movieId= @Model.Id.ToString();
+    </script>*@
+
+<script type="text/javascript">
+
     $(function () {        
-        $("#add-favorite").click(function () {
+        $("#add-favorite").click(function (event) {
+            event.preventDefault();
+            var currentUserId = $("#currentLoginId").val();
+            var MovieFavorites ={
+                userId : currentUserId,
+            movieId : @Model.Id.ToString()
+                };              
             $.ajax({
-                url: "/MovieFavorites/CreateMovieFavorites",
-                contentType: 'application/json; charset=utf-8',
+                url: "/api/MovieFavorites/AddFavorites",
                 type: 'POST',
-                data: {userId: userId,movieId:movieId},
-                success: function () {
+                dataType: 'json',
+                data: { moviesFavorites: JSON.stringify(MovieFavorites) },
+                success: function (res) {
                     $("#favorite-icon").css("background", "yellow");
                     alert("Add to favorite successfully!");
-                }
+            },
+            error: function (res) {
+                 alert("Error");
+            }
             });
         });
-        $("#delete-favorite").click(function () {
+        $("#delete-favorite").click(function (event) { 
+            event.preventDefault();
+             var currentUserId = $("#currentLoginId").val();
+            var MovieFavorites = {
+                userId : currentUserId,
+            movieId : @Model.Id.ToString()
+                };                     
             $.ajax({
-                url: "/MovieFavorites/UpdateRemoveMovieFavorites",
-                contentType: 'application/json; charset=utf-8',
+                url: "/api/MovieFavorites/RemoveFavorites",                
                 type: 'PUT',
-                data: {userId: userId,movieId:movieId},
-                success: function () {
+                  dataType: 'json',
+                 data: { moviesFavorites: JSON.stringify(MovieFavorites) },
+                success: function (res) {
                     $("#favorite-icon").attr("style", "");
                     alert("Removed from favorite!");
                 }
