@@ -24,6 +24,8 @@ namespace MovieInformation.Services.Interfaces
         Task<MoviePopularResponse> GetRecommendationsMovies(MovieRequest request);
         Task<MoviePopularResponse> GetSimilarMovies(MovieRequest request);        
         Task<MovieRatingResponse> RatingMovies(MovieRequest request, double rating);
+        //
+        Task<List<MovieDetailResponse>> GetListMovieDetailsByListMovieId(List<string> movieIds);
     }
 }
     

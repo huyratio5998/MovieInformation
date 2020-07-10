@@ -37,15 +37,16 @@ namespace MovieInformation.Controllers
             var lstMovieIds = _movieFavoritesService.GetMovieFavoritesIdByUserId(userId);
             if (lstMovieIds == null) return result;
 
-            foreach (var item in lstMovieIds)
-            {
-                MovieRequest request = new MovieRequest();
-                request.Api_key = _api_key;
-                request.Language = "en-US";
-                request.Movie_id = item;
-                var movieDetail = await _movieService.GetMovieDetail(request);
-                result.Add(movieDetail);
-            }
+            //foreach (var item in lstMovieIds)
+            //{
+            //    MovieRequest request = new MovieRequest();
+            //    request.Api_key = _api_key;
+            //    request.Language = "en-US";
+            //    request.Movie_id = item;
+            //    var movieDetail = await _movieService.GetMovieDetail(request);
+            //    result.Add(movieDetail);
+            //}
+            result=await _movieService.GetListMovieDetailsByListMovieId(lstMovieIds);
             return result;
         }
 

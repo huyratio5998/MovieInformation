@@ -3,10 +3,13 @@
     MovieInformation.Services.ApiModels.Responses.GenreResponse lstGenres = ViewBag.lstGenres;
      var videos = ViewBag.Videos;
  }
+<div>
+    <input type="hidden" name="movieFavorites" id="currentLoginId" value="@ViewBag.CurrentLoginId" />
+</div>
 <div class="row">
     <div class="slider-single-item">
         @foreach (var item in Model.Results.Take(5))
-        {
+        {                     
             <div class="movie-item">
                 <div class="row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
@@ -19,7 +22,7 @@
                                     }
                                     if (item.GenreIds.Count() >= 2)
                                     {
-                                       <span class="yell"><a href="#">@lstGenres.Genres.FirstOrDefault(x => x.Id == item.GenreIds[1]).Name</a></span>
+                                        <span class="yell"><a href="#">@lstGenres.Genres.FirstOrDefault(x => x.Id == item.GenreIds[1]).Name</a></span>
                                     }
                                     if (item.GenreIds.Count() >= 3)
                                     {
@@ -35,7 +38,17 @@
                             </h1>
                             <div class="social-btn">
                                 <a href="https://www.youtube.com/embed/DSCKfXpAGHc" class="parent-btn"><i class="ion-play"></i> Watch Trailer</a>
-                                <a href="#" class="parent-btn"><i class="ion-heart"></i> Add to Favorite</a>
+                                @if (!string.IsNullOrEmpty(ViewBag.CurrentLoginId))
+                                {
+                                    @if (item.isMovieFavorites)
+                                    {
+                                        <a href="#" id="delete-favorite" class="parent-btn"><i class="ion-heart" style="background-color:yellow" id="favorite-icon"></i>Favorited</a>
+                                    }
+                                    else
+                                    {
+                                        @*<a href="#" id="add-favorite" class="parent-btn"><i class="ion-heart" id="favorite-icon"></i> Add to Favorite</a>*@
+                                    }
+                                }
                                 <div class="hover-bnt">
                                     <a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>share</a>
                                     <div class="hvr-item">
@@ -48,14 +61,14 @@
                             </div>
                             <div class="mv-details">
                                 <p><i class="ion-android-star"></i><span>@item.VoteAverage</span> /10</p>
-                                <ul class="mv-infor">                                    
+                                <ul class="mv-infor">
                                     <li>  Rated: @item.VoteCount  </li>
                                     <li>  Release: @item.ReleaseDate.ToString("MM/dd/yyyy")</li>
                                 </ul>
                             </div>
                             <div class="btn-transform transform-vertical">
-                                <div>@Html.ActionLink("more detail", "Detail", "Movies", new { movieId=item.Id } ,new {@class="item item-1 redbtn"})</div>
-                                <div>@Html.ActionLink("more detail", "Detail", "Movies", new { movieId = item.Id },new { @class="item item-2 redbtn hvrbtn"})</div>
+                                <div>@Html.ActionLink("more detail", "Detail", "Movies", new { movieId = item.Id }, new { @class = "item item-1 redbtn" })</div>
+                                <div>@Html.ActionLink("more detail", "Detail", "Movies", new { movieId = item.Id }, new { @class = "item item-2 redbtn hvrbtn" })</div>
                             </div>
                         </div>
                     </div>
@@ -67,6 +80,52 @@
                 </div>
             </div>
         }
-        
+
     </div>
 </div>
+
+@*<script type="text/javascript">
+
+    $(function () {
+        $("#add-favorite").click(function (event) {
+            event.preventDefault();
+            var currentUserId = $("#currentLoginId").val();
+            var currentMovieId=$("#currentMovieId").val();
+            var MovieFavorites ={
+                userId : currentUserId,
+            movieId :currentMovieId
+                };
+            $.ajax({
+                url: "/api/MovieFavorites/AddFavorites",
+                type: 'POST',
+                dataType: 'json',
+                data: { moviesFavorites: JSON.stringify(MovieFavorites) },
+                success: function (res) {
+                    $("#add-favorite").html('<i class="ion-heart" style="background-color:yellow" id="favorite-icon"></i>Favorited');                  
+                    alert("Add to favorite successfully!");
+            },
+            error: function (res) {
+                 alert("Error");
+            }
+            });
+        });
+        $("#delete-favorite").click(function (event) {
+            event.preventDefault();
+             var currentUserId = $("#currentLoginId").val();
+            var MovieFavorites = {
+                userId : currentUserId,
+            movieId :currentMovieId
+                };
+            $.ajax({
+                url: "/api/MovieFavorites/RemoveFavorites",
+                type: 'PUT',
+                  dataType: 'json',
+                 data: { moviesFavorites: JSON.stringify(MovieFavorites) },
+                success: function (res) {
+                    $("#delete-favorite").html('<i class="ion-heart" id="favorite-icon"></i> Add to Favorite');
+                    alert("Removed from favorite!");
+                }
+            });
+        });
+    });
+</script>*@

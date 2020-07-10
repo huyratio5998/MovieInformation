@@ -33,6 +33,10 @@ namespace MovieInformation.Services.ApiModels.Responses
     }
     public class Item
     {
+        public Item()
+        {
+            isMovieFavorites = false;
+        }
         [JsonProperty("popularity")]
         public double Popularity { get; set; }
 
@@ -74,5 +78,6 @@ namespace MovieInformation.Services.ApiModels.Responses
 
         [JsonProperty("release_date")]
         public DateTimeOffset ReleaseDate { get; set; }
+        public bool isMovieFavorites{ get; set; }
     }
 }

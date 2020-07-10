@@ -32,11 +32,12 @@ namespace MovieInformation.Controllers
         private readonly IPaymentService _paymentService;
         private readonly string _api_key;
         private UserManager<MovieInformationUser> _userManager;
+        private readonly IMovieFavoritesService _movieFavoritesService;
         // GET: Movies
         public HomeController(ILogger<HomeController> logger,ApplicationDbContext context,
             IMovieService movieService, IConfiguration config, IGenreService genreService,
             IHttpContextAccessor httpContextAccessor, IPaymentService paymentService,
-            UserManager<MovieInformationUser> userManager
+            UserManager<MovieInformationUser> userManager, IMovieFavoritesService movieFavoritesService
             )
         {
             _logger = logger;
@@ -48,6 +49,7 @@ namespace MovieInformation.Controllers
             _httpContextAccessor = httpContextAccessor;
             _paymentService = paymentService;
             _userManager = userManager;
+            _movieFavoritesService = movieFavoritesService;
         }
         #region movie Api 
         
@@ -120,12 +122,23 @@ namespace MovieInformation.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
+            var lstNowPlayingMovies = await GetNowPlayingMovies();
             bool isVipUser = false;
             if (user != null)
             {
                 isVipUser = _paymentService.CheckUserVipAccount(user.Id);
+                // favorites
+                var isFavoriteMovie = false;
+                int count = 0;
+                foreach (var check in lstNowPlayingMovies.Results)
+                {
+                    isFavoriteMovie = _movieFavoritesService.CheckMovieFavoritesByUsreId(user.Id, check.Id.ToString());
+                    if (isFavoriteMovie) lstNowPlayingMovies.Results[count].isMovieFavorites = true;
+                    count++;
+                }
             };
             ViewBag.IsUserVip = isVipUser;
+            ViewBag.CurrentLoginId = user == null ? "" : user.Id;
             if (isVipUser)
             {
                 ViewBag.lstUpComing = await GetUpcomingMovies();
@@ -133,7 +146,9 @@ namespace MovieInformation.Controllers
                 ViewBag.lstWeekTrending = await GetWeekTrendingMovies();
             }
             ViewBag.lstGenres = await GetlstGenres();
-            ViewBag.lstNowPlaying = await GetNowPlayingMovies();
+            
+                    
+            ViewBag.lstNowPlaying = lstNowPlayingMovies;
             ViewBag.lstPopular = await GetPopularMovies();
             ViewBag.lstDayTrending = await GetDayTrendingMovies();
 

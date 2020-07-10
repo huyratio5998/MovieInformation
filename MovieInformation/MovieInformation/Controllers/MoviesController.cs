@@ -68,16 +68,17 @@ namespace MovieInformation.Controllers
             {
                 var result = new List<MovieDetailResponse>();
                 var lstMovieIds = _movieFavoritesService.GetMovieFavoritesIdByUserId(user.Id);
-                if (lstMovieIds == null) return View(result);              
-                foreach (var item in lstMovieIds)
-                {
-                    MovieRequest request = new MovieRequest();
-                    request.Api_key = _api_key;
-                    request.Language = "en-US";
-                    request.Movie_id = item;
-                    var movie = await _movieService.GetMovieDetail(request);
-                    if (movie != null) result.Add(movie);
-                }
+                if (lstMovieIds == null) return View(result);
+                //foreach (var item in lstMovieIds)
+                //{
+                //    MovieRequest request = new MovieRequest();
+                //    request.Api_key = _api_key;
+                //    request.Language = "en-US";
+                //    request.Movie_id = item;
+                //    var movie = await _movieService.GetMovieDetail(request);
+                //    if (movie != null) result.Add(movie);
+                //}
+                result = await _movieService.GetListMovieDetailsByListMovieId(lstMovieIds);
                 return View(result);
             }
             
@@ -134,7 +135,7 @@ namespace MovieInformation.Controllers
             int num = _random.Next(10);
             var lstMoviesRandom = await GetPopularMovies(num);
             //var lstRecommendations = await movieService.GetRecommendationsMovies(requestRecommendations);
-            var movieDetail = _movieService.GetMovieDetail(request);    
+            var movieDetail =await _movieService.GetMovieDetail(request);    
             
             MovieCreditsResponse lstCredits= await _movieService.GetCreditsMovies(requestCast);
             ViewBag.Credits = lstCredits;
@@ -147,7 +148,7 @@ namespace MovieInformation.Controllers
             ViewBag.Posters = lstImageMovies.Posters.Take(7).ToList();
             ViewBag.RecommendationMovies = lstMoviesRandom.Results.Take(5).ToList();
             //ViewBag.RecommendationMovies = lstRecommendations.Results.Take(5).ToList();
-            return View("Detail", await movieDetail);
+            return View("Detail", movieDetail);
         }
         //
         

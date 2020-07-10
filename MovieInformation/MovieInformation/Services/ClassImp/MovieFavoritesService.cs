@@ -19,8 +19,17 @@ namespace MovieInformation.Services.ClassImp
         public bool AddMovieFavorites(string userId, string movieId)
         {
             try
-            {                
-                var movieFavorites = new MovieFavorites()
+            {
+                var lstmovieFavorites = _context.MovieFavorites.FirstOrDefault(x => x.userId == userId && x.movieId.Equals(movieId));
+                if (lstmovieFavorites != null)
+                {
+                    lstmovieFavorites.isFavorites = true;
+                    _context.Entry(lstmovieFavorites).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.SaveChanges();
+                    return true;
+                }
+                // create
+                    var movieFavorites = new MovieFavorites()
                 {
                     userId = userId,
                     movieId=movieId,

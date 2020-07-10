@@ -49,7 +49,7 @@
                            @Html.ActionLink("Read more","Detail","Movies",new { movieId=item.Id.ToString()}) <i class="ion-android-arrow-dropright"></i>
                         </div>
                         <div class="mv-item-infor">
-                            <h6><a href="Movies/Detail?movieId=@item.Id">@item.Title</a></h6>
+                            <h6><a href="/Movies/Detail?movieId=@item.Id">@item.Title</a></h6>
                             <p class="rate"><i class="ion-android-star"></i><span>@item.VoteAverage</span> /10</p>
                         </div>
                     </div>

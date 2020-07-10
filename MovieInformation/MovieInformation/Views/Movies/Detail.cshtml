@@ -54,16 +54,20 @@
             <div class="col-md-8 col-sm-12 col-xs-12">
                 <div class="movie-single-ct main-content">
                     <h1 class="bd-hd">@Model.Title<span> @Model.ReleaseDate.ToString("MM/dd/yyyy")</span></h1>
-                    <div class="social-btn">
-                        @if (ViewBag.IsFavorite)
-                        {
-                            <a href="" id="delete-favorite" class="parent-btn"><i class="ion-heart" style="background-color:yellow" id="favorite-icon"></i>Favorited</a>
-                        }
-                        else
-                        {
-                            <a href="" id="add-favorite" class="parent-btn"><i class="ion-heart" id="favorite-icon"></i> Add to Favorite</a>
-                        }
-
+                    <div class="social-btn">   
+                        <div id="favorite-button">
+                            @if (!string.IsNullOrEmpty(ViewBag.CurrentLoginId))
+                            {
+                                @if (ViewBag.IsFavorite)
+                                {
+                                    <a href="" id="delete-favorite" class="parent-btn"><i class="ion-heart" style="background-color:yellow" id="favorite-icon"></i>Favorited</a>
+                                }
+                                else
+                                {
+                                    <a href="" id="add-favorite" class="parent-btn"><i class="ion-heart" id="favorite-icon"></i> Add to Favorite</a>
+                                }
+                            }
+                        </div>
                         <div class="hover-bnt">
                             <a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>share</a>
                             <div class="hvr-item">
@@ -766,8 +770,7 @@
 
     </script>*@
 
-<script type="text/javascript">
-
+<script type="text/javascript">   
     $(function () {        
         $("#add-favorite").click(function (event) {
             event.preventDefault();
@@ -782,8 +785,9 @@
                 dataType: 'json',
                 data: { moviesFavorites: JSON.stringify(MovieFavorites) },
                 success: function (res) {
-                    $("#favorite-icon").css("background", "yellow");
-                    alert("Add to favorite successfully!");
+                    window.location.href="/Movies/Detail?movieId=" + MovieFavorites.movieId;
+                    //$("#favorite-button").html(' <a href="" id="delete-favorite" class="parent-btn"><i class="ion-heart" style="background-color:yellow" id="favorite-icon"></i>Favorited</a>');                   
+                    //alert("Add to favorite successfully!");
             },
             error: function (res) {
                  alert("Error");
@@ -802,9 +806,10 @@
                 type: 'PUT',
                   dataType: 'json',
                  data: { moviesFavorites: JSON.stringify(MovieFavorites) },
-                success: function (res) {
-                    $("#favorite-icon").attr("style", "");
-                    alert("Removed from favorite!");
+                success: function (res) {    
+                      window.location.href="/Movies/Detail?movieId=" + MovieFavorites.movieId;
+                    //$("#favorite-button").html('<a href="" id="add-favorite" class="parent-btn"><i class="ion-heart" id="favorite-icon"></i> Add to Favorite</a>');                                         
+                    //alert("Removed from favorite!");
                 }
             });
         });

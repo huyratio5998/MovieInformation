@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using MovieInformation.Services.ApiModels;
 using MovieInformation.Services.ApiModels.Requests;
 using MovieInformation.Services.ApiModels.Responses;
@@ -17,10 +18,14 @@ namespace MovieInformation.Services.ClassImp
     public class MovieService : IMovieService 
     {
         private readonly HttpClient _httpClient;
+        private readonly IConfiguration _config;
+        private readonly string _api_key;
 
-        public MovieService(HttpClient httpClient)
+        public MovieService(HttpClient httpClient, IConfiguration config)
         {
             _httpClient = httpClient;
+            _config = config;
+            _api_key = _config.GetValue<string>("AppSettings:Api_Key");
         }
         [HttpGet]
         public  Task<MovieDetailResponse> GetMovieDetail(MovieRequest request)
@@ -118,6 +123,24 @@ namespace MovieInformation.Services.ClassImp
         {
             string uri = $"trending/movie/{request.TrendingTime}?api_key={request.Api_key}";
             return ApiHelper.GetMovieApi<MoviePopularResponse>(uri, _httpClient);
+        }
+
+        public async Task<List<MovieDetailResponse>> GetListMovieDetailsByListMovieId(List<string> movieIds)
+        {
+            var result = new List<MovieDetailResponse>();
+            if (movieIds.Count() > 0)
+            {                
+                foreach (var item in movieIds)
+                {
+                    MovieRequest request = new MovieRequest();
+                    request.Api_key = _api_key;
+                    request.Language = "en-US";
+                    request.Movie_id = item;
+                    var movieDetail = await GetMovieDetail(request);
+                    result.Add(movieDetail);
+                }
+            }
+            return result.OrderBy(x=>x.VoteAverage).ToList();
         }
     }
 }
