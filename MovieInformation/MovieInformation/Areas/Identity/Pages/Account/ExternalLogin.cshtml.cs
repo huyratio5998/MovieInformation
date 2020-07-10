@@ -102,18 +102,7 @@ namespace MovieInformation.Areas.Identity.Pages.Account
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor : true);
             if (result.Succeeded)
-            {
-                // create new guessSession when login
-                //var user = await _userManager.GetUserAsync(User);
-                //if (user == null)
-                //{
-                //    return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-                //}
-                //MovieRequest request = new MovieRequest();
-                //request.Api_key = _api_key;
-                //var createGuessSession =await _userSessionService.CreateGuessSession(request);
-                //user.Guest_session_id = createGuessSession.Guest_session_id;                
-                //var update = await _userManager.UpdateAsync(user);               
+            {                           
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
 
                 return LocalRedirect(returnUrl);
@@ -172,7 +161,23 @@ namespace MovieInformation.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new MovieInformationUser { UserName = Input.Email, Email = Input.Email, Nickname=Input.Name,Birthday=Input.Birthday,Gender=Input.Gender,Picture=Input.Picture };
+                var user = new MovieInformationUser {
+                    UserName = Input.Email,
+                    Email = Input.Email, 
+                    Nickname=Input.Name,
+                    Birthday=Input.Birthday,
+                    Gender=Input.Gender,
+                    Picture=Input.Picture 
+                };
+                // start create user session when infor valid                                               
+                MovieRequest request = new MovieRequest();
+                request.Api_key = _api_key;
+                var createGuessSession = await _userSessionService.CreateGuessSession(request);
+                if (createGuessSession.Success)
+                {
+                    user.Guest_session_id = createGuessSession.Guest_session_id;
+                }                
+                // end
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

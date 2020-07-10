@@ -28,15 +28,15 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="topbar-filter fw">
                     <p>Found <span>@Model.Count() movies</span> in total</p>
-                    <label>Sort by:</label>
-                    <select id="movie-sort">
+                    @*<label>Sort by:</label>*@
+                    @*<select id="movie-sort">
                         <option value="popularityDes">Popularity Descending</option>
                         <option value="popularityAsc">Popularity Ascending</option>
                         <option value="ratingDes">Rating Descending</option>
                         <option value="ratingAsc">Rating Ascending</option>
                         <option value="releaseDes">Release date Descending</option>
                         <option value="releaseAsc">Release date Ascending</option>
-                    </select>
+                    </select>*@
                     <a href="movielist.html" class="list"><i class="ion-ios-list-outline "></i></a>
                     <a href="moviegridfw.html" class="grid"><i class="ion-grid active"></i></a>
                 </div>
@@ -64,16 +64,10 @@
 
                     <div class="pagination2">
                         <span>Page 1 of @Model.Count:</span>
-                        @for (int i = 1; i <= 3; i++)
+                        @for (int i = 1; i <= 2; i++)
                         {                            
                             <a href="/Movies/Index?page=@i">@i</a>
-                        }
-                        <a href="#">...</a>
-                        @for (int i = (int)Model.Count-1; i <=(int)Model.Count; i++)
-                        {
-                            <a href="/Movies/Index?page=@i">@i</a>
-                        }
-
+                        }                      
                        
                         <a href="#"><i class="ion-arrow-right-b"></i></a>
                     </div>

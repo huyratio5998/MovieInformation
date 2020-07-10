@@ -1,7 +1,7 @@
-﻿@model MovieInformation.Services.ApiModels.Responses.MoviePopularResponse
+﻿@model MovieInformation.Services.ApiModels.Responses.RatedMoviesResponse
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Rating Movies";
 
     Layout = "~/Views/Shared/_LayoutMovieInfor.cshtml";
 }
@@ -11,10 +11,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="hero-ct">
-                    <h1>Movie Listing</h1>
+                    <h1>Movie Rating</h1>
                     <ul class="breadcumb">
                         <li class="active"><a href="/Home/Index">Home</a></li>
-                        <li> <span class="ion-ios-arrow-right"></span> movie listing</li>
+                        <li> <span class="ion-ios-arrow-right"></span> Movies Rating</li>
                     </ul>
                 </div>
             </div>
@@ -51,6 +51,7 @@
                         <div class="mv-item-infor">
                             <h6><a href="/Movies/Detail?movieId=@item.Id">@item.Title</a></h6>
                             <p class="rate"><i class="ion-android-star"></i><span>@item.VoteAverage</span> /10</p>
+                            <p class="rate"><i class="ion-android-star"><span style="color:#5ab9f1">Your Rate: </span></i><span>@item.Rating</span> /10</p>
                         </div>
                     </div>
                     }
@@ -64,17 +65,10 @@
 
                     <div class="pagination2">
                         <span>Page 1 of @Model.TotalPages:</span>
-                        @for (int i = 1; i <= 6; i++)
+                        @for (int i = 1; i <= Model.TotalPages; i++)
                         {                            
-                            <a href="/Movies/Index?page=@i">@i</a>
-                        }
-                        <a href="#">...</a>
-                        @for (int i = (int)Model.TotalPages-1; i <=(int)Model.TotalPages; i++)
-                        {
-                            <a href="/Movies/Index?page=@i">@i</a>
-                        }
-
-                       
+                            <a href="/Movies/RatedMovies?page=@i">@i</a>
+                        }                                             
                         <a href="#"><i class="ion-arrow-right-b"></i></a>
                     </div>
                 </div>

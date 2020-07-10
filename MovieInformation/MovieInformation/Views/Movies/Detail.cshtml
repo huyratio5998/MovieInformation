@@ -1,10 +1,26 @@
 ﻿@model MovieInformation.Services.ApiModels.Responses.MovieDetailResponse;
 <style>
-    .ratings .fa {
-        font-size: 40px;
-        color: #FF9800;
-        float: left;
-        cursor: pointer;
+
+    /* Rating Star Widgets Style */
+    /*.rating-stars ul {
+        list-style-type: none;
+        padding: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+    }*/
+
+
+    ul#stars-movies li {
+        display: inline-block;
+        margin-top: 25px;
+    }
+
+    ul#stars-movies > li.star-movie.hover > i {
+        color: #d4b312;
+    }
+
+    ul#stars-movies > li.star-movie.selected > i {
+        color: #a4d412;
     }
 </style>
 @{
@@ -54,7 +70,7 @@
             <div class="col-md-8 col-sm-12 col-xs-12">
                 <div class="movie-single-ct main-content">
                     <h1 class="bd-hd">@Model.Title<span> @Model.ReleaseDate.ToString("MM/dd/yyyy")</span></h1>
-                    <div class="social-btn">   
+                    <div class="social-btn">
                         <div id="favorite-button">
                             @if (!string.IsNullOrEmpty(ViewBag.CurrentLoginId))
                             {
@@ -67,7 +83,7 @@
                                     <a href="" id="add-favorite" class="parent-btn"><i class="ion-heart" id="favorite-icon"></i> Add to Favorite</a>
                                 }
                             }
-                        </div>
+                        </div>                        
                         <div class="hover-bnt">
                             <a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>share</a>
                             <div class="hvr-item">
@@ -86,39 +102,37 @@
                                 <span class="rv">@Model.VoteCount Reviews</span>
                             </p>
                         </div>
+
                         <div class="rate-star">
                             <p>Rate This Movie:  </p>
-                            @*#f5b50a*@
-                            @*<div class="ratings">
-                                    <span class="fa fa-star-o"></span>
-                                    <span class="fa fa-star-o"></span>
-                                    <span class="fa fa-star-o"></span>
-                                    <span class="fa fa-star-o"></span>
-                                    <span class="fa fa-star-o"></span>
-                                    <span class="fa fa-star-o"></span>
-                                    <span class="fa fa-star-o"></span>
-                                    <span class="fa fa-star-o"></span>
-                                    <span class="fa fa-star-o"></span>
-                                    <span class="fa fa-star-o"></span>
-                                </div>*@
-                            @{
-                                var count = Model.VoteAverage;
-                                int i = 0;
-                                while (true)
-                                {
-                                    if (i < (int)count)
-                                    {
-                                        <i class="ion-ios-star"></i>
-                                        i++;
+                            <div id="rate-movies">
+                                <ul id="stars-movies">
+
+                                    @{
+                                        var count = Model.VoteAverage;
+                                        int i = 0;
+                                        while (true)
+                                        {
+                                            @if (ViewBag.UserRating == 0)
+                                            {
+                                                <li class="star-movie" data-value="@(++i)"><i class="ion-ios-star-outline"></i></li>
+                                            }
+                                            else
+                                            {
+                                                @if (i < ViewBag.UserRating)
+                                                {
+                                                    <li class="star-movie selected" data-value="@(++i)"><i class="ion-ios-star-outline"></i></li>
+                                                }
+                                                else
+                                                {
+                                                    <li class="star-movie " data-value="@(++i)"><i class="ion-ios-star-outline"></i></li>
+                                                }
+                                            }
+                                            if (i == 10) break;
+                                        }
                                     }
-                                    else
-                                    {
-                                        <i class="ion-ios-star-outline"></i>
-                                        i++;
-                                    }
-                                    if (i == 10) break;
-                                }
-                            }
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="movie-tabs">
@@ -725,60 +739,125 @@
         </div>
     </div>
 </div>
-@*<script type="text/javascript">
-        const stars = document.querySelector(".ratings").children;
-        let index;
-         for(let i=0; i<stars.length; i++){
-        stars[i].addEventListener("mouseover",function(){
-             // console.log(i)
-             for(let j=0; j<stars.length; j++){
-                stars[j].classList.remove("fa-star");
-                stars[j].classList.add("fa-star-o");
-             }
-             for(let j=0; j<=i; j++){
-                stars[j].classList.remove("fa-star-o");
-               stars[j].classList.add("fa-star");
-             }
-        })
-             stars[i].addEventListener("click", function () {
-                $.ajax({
-            url: "/Movies/RatingMovieInformation",
-            type: 'GET',
-            data: {
-                movieId : @Model.
-                    }
-            success: function(res) {
-                console.log(res);
-                alert("Rating successfully!");
-            }
-        });
-          ratingValue.value=i+1;
-          index=i;
-        })
-        stars[i].addEventListener("mouseout",function(){
+<script type="text/javascript">
+    //     $(document).ready(function(){
 
-             for(let j=0; j<stars.length; j++){
-                stars[j].classList.remove("fa-star");
-                stars[j].classList.add("fa-star-o");
-             }
-             for(let j=0; j<=index; j++){
-                stars[j].classList.remove("fa-star-o");
-               stars[j].classList.add("fa-star");
-             }
-        })
+    //  /* 1. Visualizing things on Hover - See next part for action on click */
+    //  $('#rate-star i').on('mouseover', function(){
+    //    var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
+
+    //    // Now highlight all the stars that's not after the current hovered star
+    //    $(this).parent().children('i').each(function(e){
+    //      if (e < onStar) {
+    //          $(this).addClass("ion-ios-star");
+    //      }
+    //      else {
+    //        //$(this).removeClass('hover');
+    //      }
+    //    });
+
+    //  }).on('mouseout', function(){
+    //    $(this).parent().children('i').each(function(e){
+    //      $(this).removeClass('ion-ios-star').addClass("ion-ios-star-outline");
+    //    });
+    //  });
+
+
+    //  /* 2. Action to perform on click */
+    //  $('#rate-star i').on('click', function(){
+    //    var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+    //    var stars = $(this).parent().children('i');
+
+    //    for (i = 0; i < stars.length; i++) {
+    //      $(stars[i]).removeClass('ion-ios-star');
+    //    }
+
+    //    for (i = 0; i < onStar; i++) {
+    //      $(stars[i]).addClass('ion-ios-star');
+    //    }
+
+    //    // JUST RESPONSE (Not needed)
+    //    var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
+    //    console.log("abc:"+ratingValue);
+
+    //  });
+
+    //});
+
+
+</script>
+<script type="text/javascript">
+    $(function () {              
+
+  /* 1. Visualizing things on Hover - See next part for action on click */
+  $('#stars-movies li').on('mouseover', function(){
+    var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
+
+    // Now highlight all the stars that's not after the current hovered star
+    $(this).parent().children('li.star-movie').each(function(e){
+      if (e < onStar) {
+        $(this).addClass('hover');
       }
+      else {
+        $(this).removeClass('hover');
+      }
+    });
 
-    </script>*@
+  }).on('mouseout', function(){
+    $(this).parent().children('li.star-movie').each(function(e){
+      $(this).removeClass('hover');
+    });
+  });
 
-<script type="text/javascript">   
-    $(function () {        
+
+  /* 2. Action to perform on click */
+  $('#stars-movies li').on('click', function(){
+    var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+    var stars = $(this).parent().children('li.star-movie');
+
+    for (i = 0; i < stars.length; i++) {
+      $(stars[i]).removeClass('selected');
+    }
+
+    for (i = 0; i < onStar; i++) {
+      $(stars[i]).addClass('selected');
+    }
+
+    // JUST RESPONSE (Not needed)
+    var ratingValue = parseInt($('#stars-movies li.selected').last().data('value'), 10);
+
+            $.ajax({
+                url: "/Movies/RatingMovieInformation",
+                type: 'POST',
+                dataType: 'json',
+                data: { movieId:@Model.Id.ToString(), ratting: ratingValue },
+                success: function (res) {
+                    if (res) {
+                        alert("Success!");
+                    } else {
+                        alert("Fail!");
+                    }
+                },
+                error: function (res) {
+                    alert("Error");
+                }
+            });
+
+  });
+
+});        
+</script>
+
+<script type="text/javascript">
+
+    $(function () {
         $("#add-favorite").click(function (event) {
             event.preventDefault();
             var currentUserId = $("#currentLoginId").val();
             var MovieFavorites ={
                 userId : currentUserId,
             movieId : @Model.Id.ToString()
-                };              
+                };
             $.ajax({
                 url: "/api/MovieFavorites/AddFavorites",
                 type: 'POST',
@@ -786,7 +865,7 @@
                 data: { moviesFavorites: JSON.stringify(MovieFavorites) },
                 success: function (res) {
                     window.location.href="/Movies/Detail?movieId=" + MovieFavorites.movieId;
-                    //$("#favorite-button").html(' <a href="" id="delete-favorite" class="parent-btn"><i class="ion-heart" style="background-color:yellow" id="favorite-icon"></i>Favorited</a>');                   
+                    //$("#favorite-button").html(' <a href="" id="delete-favorite" class="parent-btn"><i class="ion-heart" style="background-color:yellow" id="favorite-icon"></i>Favorited</a>');
                     //alert("Add to favorite successfully!");
             },
             error: function (res) {
@@ -794,21 +873,21 @@
             }
             });
         });
-        $("#delete-favorite").click(function (event) { 
+        $("#delete-favorite").click(function (event) {
             event.preventDefault();
              var currentUserId = $("#currentLoginId").val();
             var MovieFavorites = {
                 userId : currentUserId,
             movieId : @Model.Id.ToString()
-                };                     
+                };
             $.ajax({
-                url: "/api/MovieFavorites/RemoveFavorites",                
+                url: "/api/MovieFavorites/RemoveFavorites",
                 type: 'PUT',
                   dataType: 'json',
                  data: { moviesFavorites: JSON.stringify(MovieFavorites) },
-                success: function (res) {    
+                success: function (res) {
                       window.location.href="/Movies/Detail?movieId=" + MovieFavorites.movieId;
-                    //$("#favorite-button").html('<a href="" id="add-favorite" class="parent-btn"><i class="ion-heart" id="favorite-icon"></i> Add to Favorite</a>');                                         
+                    //$("#favorite-button").html('<a href="" id="add-favorite" class="parent-btn"><i class="ion-heart" id="favorite-icon"></i> Add to Favorite</a>');
                     //alert("Removed from favorite!");
                 }
             });

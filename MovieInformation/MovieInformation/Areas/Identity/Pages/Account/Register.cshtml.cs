@@ -12,8 +12,11 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using MovieInformation.Models;
+using MovieInformation.Services.ApiModels.Requests;
+using MovieInformation.Services.Interfaces;
 
 namespace MovieInformation.Areas.Identity.Pages.Account
 {
@@ -23,18 +26,24 @@ namespace MovieInformation.Areas.Identity.Pages.Account
         private readonly SignInManager<MovieInformationUser> _signInManager;
         private readonly UserManager<MovieInformationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailSender _emailSender;        
+        private IUserSessionService _userSessionService;
+        private readonly string _api_key;
+        private readonly IConfiguration _config;
 
         public RegisterModel(
             UserManager<MovieInformationUser> userManager,
             SignInManager<MovieInformationUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            ILogger<RegisterModel> logger, IUserSessionService userSessionService,
+            IEmailSender emailSender, IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _userSessionService = userSessionService;
+            _config = config;
+            _api_key = _config.GetValue<string>("AppSettings:Api_Key");
         }
 
         [BindProperty]
@@ -80,6 +89,15 @@ namespace MovieInformation.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new MovieInformationUser { UserName = Input.Email, Email = Input.Email };
+                // create guess session id when register user
+                MovieRequest request = new MovieRequest();
+                request.Api_key = _api_key;
+                var createGuessSession = await _userSessionService.CreateGuessSession(request);
+                if (createGuessSession.Success)
+                {
+                    user.Guest_session_id = createGuessSession.Guest_session_id;
+                }
+                //
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

@@ -160,7 +160,7 @@
                                 </li>
                             }
                         }
-                        <li class="dropdown first">
+                        @*<li class="dropdown first">
                             <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                                 celebrities <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
@@ -170,7 +170,7 @@
                                 <li><a href="celebritylist.html">Popular List</a></li>
                                 <li class="it-last"><a href="celebritysingle.html">Celebrity single</a></li>
                             </ul>
-                        </li>
+                        </li>*@
                         <li class="dropdown first">
                             <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">
                                 news <i class="fa fa-angle-down" aria-hidden="true"></i>
@@ -189,8 +189,11 @@
                                 <li><a href="userfavoritegrid.html">user favorite grid</a></li>
                                 <li><a href="userfavoritelist.html">user favorite list</a></li>
                                 <li><a href="userprofile.html">user profile</a></li>
-                                <li class="it-last"><a href="userrate.html">user rate</a></li>
-                            </ul>
+                                @if (SignInManager.IsSignedIn(User))
+                                { 
+                                    <li class="it-last"><a href="/Movies/RatedMovies">user rate</a></li>
+                                }                                    
+                                </ul>
                         </li>
                     </ul>
                     <ul class="nav navbar-nav flex-child-menu menu-right">

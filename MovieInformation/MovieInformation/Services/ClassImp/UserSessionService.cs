@@ -26,7 +26,7 @@ namespace MovieInformation.Services.ClassImp
         public Task<RatedMoviesResponse> GetRatedMovie(MovieRequest request, string sortBy)
         {
 
-            string uri = $"/guest_session/{request.Guest_session_id}/rated/movies? api_key = {request.Api_key} & language = {request.Language} & sort_by = {sortBy}";
+            string uri = $"guest_session/{request.Guest_session_id}/rated/movies?api_key={request.Api_key}&language={request.Language}&sort_by={sortBy}";
             return ApiHelper.GetMovieApi<RatedMoviesResponse>(uri, _httpClient);
         }
         
