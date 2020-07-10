@@ -16,6 +16,6 @@ namespace MovieInformation.Models
         public Guid id { get; set; }
         public string movieId { get; set; }
         public bool isFavorites { get; set; }
-        public string userName{ get; set; }        
+        public string userId{ get; set; }        
     }
 }

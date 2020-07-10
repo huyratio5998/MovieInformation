@@ -16,13 +16,13 @@ namespace MovieInformation.Services.ClassImp
         {
             _context = context;
         }
-        public bool AddMovieFavorites(string userName, string movieId)
+        public bool AddMovieFavorites(string userId, string movieId)
         {
             try
             {                
                 var movieFavorites = new MovieFavorites()
                 {
-                    userName = userName,
+                    userId = userId,
                     movieId=movieId,
                     isFavorites=true
                 };
@@ -35,16 +35,16 @@ namespace MovieInformation.Services.ClassImp
                 return false;
             }
         }
-        public bool CheckMovieFavoritesByUsreId(string userName ,string movieId)
+        public bool CheckMovieFavoritesByUsreId(string userId, string movieId)
         {
-            var check= _context.MovieFavorites.FirstOrDefault(x => x.userName.Equals(userName )&& x.movieId.Equals(movieId)&& x.isFavorites);
+            var check= _context.MovieFavorites.FirstOrDefault(x => x.userId.Equals(userId) && x.movieId.Equals(movieId)&& x.isFavorites);
             return check != null ? true : false;
         }
-        public bool DeleteMovieFavorites(string userName, string movieId)
+        public bool DeleteMovieFavorites(string userId, string movieId)
         {
             try
             {
-                var movieFavorites = _context.MovieFavorites.FirstOrDefault(x => x.userName == userName && x.movieId.Equals(movieId));                
+                var movieFavorites = _context.MovieFavorites.FirstOrDefault(x => x.userId == userId && x.movieId.Equals(movieId));                
                 if (movieFavorites != null)
                 {
                     movieFavorites.isFavorites = false;
@@ -60,12 +60,12 @@ namespace MovieInformation.Services.ClassImp
             }
         }
 
-        public List<string> GetMovieFavoritesIdByUserId(string userName)
+        public List<string> GetMovieFavoritesIdByUserId(string userId)
         {
           
             try
             {
-                var result = _context.MovieFavorites.Where(x => x.userName == userName && x.isFavorites == true)?
+                var result = _context.MovieFavorites.Where(x => x.userId == userId && x.isFavorites == true)?
                     .Select(x => x.movieId).ToList();                    
                 return result ?? new List<string>();
             }

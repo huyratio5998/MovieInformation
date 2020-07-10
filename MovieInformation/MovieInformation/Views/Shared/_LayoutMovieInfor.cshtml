@@ -19,7 +19,7 @@
     <link rel="profile" href="#">
 
     <!--Google Font-->
-    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600' />
+    @*<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600' />*@
     <!-- Mobile specific meta -->
     <meta name=viewport content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone-no">
@@ -146,7 +146,19 @@
                         <li>@Html.ActionLink("Movies", "Index", "Movies")</li>
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            <li>@Html.ActionLink("Register VIP", "CreatePayment", "PaymentPaypal")</li>
+                            @if (!ViewBag.IsUserVip)
+                            {
+                                <li>@Html.ActionLink("Register VIP", "CreatePayment", "PaymentPaypal")</li>
+                            }
+                            else
+                            {
+                                <li class="dropdown first" style="color:yellow">VIP Actions
+                                    <ul class="dropdown-menu level1">
+                                        <li>@Html.ActionLink("Extend VIP", "CreatePayment", "PaymentPaypal")</li>
+                                        <li>@Html.ActionLink("Favorites Movies", "FavoriteMovies", "Movies")</li>
+                                    </ul>
+                                </li>
+                            }
                         }
                         <li class="dropdown first">
                             <a class="btn btn-default dropdown-toggle lv1" data-toggle="dropdown" data-hover="dropdown">

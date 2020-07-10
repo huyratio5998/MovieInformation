@@ -7,7 +7,8 @@ namespace MovieInformation.Models.ViewModels
 {
     public class MovieFavoriteModel
     {
-        public string MovieId { get; set; }
+        public string movieId { get; set; }
+        public string  userId{ get; set; }
 
     }
 }

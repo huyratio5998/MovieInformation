@@ -21,7 +21,7 @@ namespace MovieInformation.Controllers
     public class MoviesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private IMovieService movieService;
+        private IMovieService _movieService;
         private readonly IConfiguration _config;
         private readonly string _api_key;
         private UserManager<MovieInformationUser> _userManager;
@@ -37,7 +37,7 @@ namespace MovieInformation.Controllers
             )
         {
             _context = context;
-            this.movieService = movieService;
+            _movieService = movieService;
             _config = config;
             _api_key= _config.GetValue<string>("AppSettings:Api_Key");
             _userManager = userManager;
@@ -51,10 +51,39 @@ namespace MovieInformation.Controllers
             request.Language = "en-US";
             request.Region = "US";
             request.Page = page;
-            var lstMoviePopular = await movieService.GetPopularMovies(request);
+            var lstMoviePopular = await _movieService.GetPopularMovies(request);
             return lstMoviePopular;
-        }    
-        
+        }      
+        public async Task<IActionResult> FavoriteMovies()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            bool isVipUser = false;
+            if (user != null)
+            {
+                isVipUser = _paymentService.CheckUserVipAccount(user.Id);
+            };
+            ViewBag.IsUserVip = isVipUser;
+            //            
+            if (isVipUser)
+            {
+                var result = new List<MovieDetailResponse>();
+                var lstMovieIds = _movieFavoritesService.GetMovieFavoritesIdByUserId(user.Id);
+                if (lstMovieIds == null) return View(result);              
+                foreach (var item in lstMovieIds)
+                {
+                    MovieRequest request = new MovieRequest();
+                    request.Api_key = _api_key;
+                    request.Language = "en-US";
+                    request.Movie_id = item;
+                    var movie = await _movieService.GetMovieDetail(request);
+                    if (movie != null) result.Add(movie);
+                }
+                return View(result);
+            }
+            
+            return RedirectToAction("Index","Home");
+        }
+
         public async Task<IActionResult> Detail(string movieId)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -63,12 +92,12 @@ namespace MovieInformation.Controllers
             if (user != null)
             {
                 isVipUser = _paymentService.CheckUserVipAccount(user.Id);
-                isFavoriteMovie= _movieFavoritesService.CheckMovieFavoritesByUsreId(user.UserName, movieId);
+                isFavoriteMovie= _movieFavoritesService.CheckMovieFavoritesByUsreId(user.Id, movieId);
             };
-            ViewBag.CurrentLoginId = user.Id;
+            ViewBag.CurrentLoginId = user == null ? "" : user.Id;
             ViewBag.IsUserVip = isVipUser;
             ViewBag.IsFavorite = isFavoriteMovie;
-            ViewBag.CurrentUserName = user.UserName;
+            //ViewBag.CurrentUserName = user.UserName;
             //ViewBag.GuestSession = user.Guest_session_id;
             #region request Model
             MovieRequest request = new MovieRequest();
@@ -98,16 +127,16 @@ namespace MovieInformation.Controllers
             requestRecommendations.Movie_id = movieId;
             #endregion
 
-            var lstKeywordMovies = await movieService.GetKeywordMovies(requestKeyword);
-            var lstVideoMovies = await movieService.GetVideosMovies(requestVideo);
-            var lstImageMovies = await movieService.GetImagesMovies(requestImage);
+            var lstKeywordMovies = await _movieService.GetKeywordMovies(requestKeyword);
+            var lstVideoMovies = await _movieService.GetVideosMovies(requestVideo);
+            var lstImageMovies = await _movieService.GetImagesMovies(requestImage);
             //
             int num = _random.Next(10);
             var lstMoviesRandom = await GetPopularMovies(num);
             //var lstRecommendations = await movieService.GetRecommendationsMovies(requestRecommendations);
-            var movieDetail = movieService.GetMovieDetail(request);    
+            var movieDetail = _movieService.GetMovieDetail(request);    
             
-            MovieCreditsResponse lstCredits= await movieService.GetCreditsMovies(requestCast);
+            MovieCreditsResponse lstCredits= await _movieService.GetCreditsMovies(requestCast);
             ViewBag.Credits = lstCredits;
             ViewBag.Director = lstCredits.Crew.FirstOrDefault(x => x.Job.Equals("Director"));
             ViewBag.Writer = lstCredits.Crew.Where(x => x.Job.Equals("Screenplay")).ToList();
