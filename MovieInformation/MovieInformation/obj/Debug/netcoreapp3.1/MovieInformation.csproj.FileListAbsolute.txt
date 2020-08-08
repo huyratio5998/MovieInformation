@@ -402,7 +402,6 @@ C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieIn
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.pdb
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\Index.cshtml.g.cs
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.g.cs
-C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.csprojAssemblyReference.cache
 C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Views\Movies\FavoriteMovies.cshtml.g.cs
 C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\bin\Debug\netcoreapp3.1\appsettings.json
@@ -607,3 +606,5 @@ C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\obj\Debug\netcoreapp
 C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.dll
 C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.pdb
 C:\Project\PTIT\ThayKhanh\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Views\Movies\RatedMovies.cshtml.g.cs
+C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\Razor\Views\Movies\RatedMovies.cshtml.g.cs
+C:\Projects\Sermester4_2\PhatTrienPhanMemDichVu\Project\MovieInformation\MovieInformation\obj\Debug\netcoreapp3.1\MovieInformation.csprojAssemblyReference.cache

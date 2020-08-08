@@ -103,7 +103,7 @@ namespace MovieInformation.Controllers
             ViewBag.CurrentLoginId = user == null ? "" : user.Id;
             ViewBag.IsUserVip = isVipUser;
             ViewBag.IsFavorite = isFavoriteMovie;            
-            ViewBag.GuestSession = user.Guest_session_id;
+           // ViewBag.GuestSession = user.Guest_session_id;
             #region request Model
             MovieRequest request = new MovieRequest();
             request.Api_key = _api_key;
@@ -136,7 +136,7 @@ namespace MovieInformation.Controllers
             var lstVideoMovies = await _movieService.GetVideosMovies(requestVideo);
             var lstImageMovies = await _movieService.GetImagesMovies(requestImage);
             //
-            int num = _random.Next(10);
+            int num = _random.Next(100);
             var lstMoviesRandom = await GetPopularMovies(num);
             //var lstRecommendations = await movieService.GetRecommendationsMovies(requestRecommendations);
             var movieDetail =await _movieService.GetMovieDetail(request);    

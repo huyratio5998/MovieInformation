@@ -111,9 +111,9 @@ namespace MovieInformation
             });
             services.AddTransient<IPaymentPaypalService, PaymentPaypal>();
             services.AddTransient<IPaymentService, PaymentService>();
-            services.AddTransient<IMovieFavoritesService, MovieFavoritesService>();            
-            
+            services.AddTransient<IMovieFavoritesService, MovieFavoritesService>();
 
+       
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

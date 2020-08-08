@@ -30,7 +30,7 @@ namespace MovieInformation.Controllers
             _config = config;
             _api_key = _config.GetValue<string>("AppSettings:Api_Key");
         }
-
+        [HttpGet("GetMovieFavorites")]
         public async Task<ActionResult<List<MovieDetailResponse>>> GetMovieFavorites(string userId)
         {
             var result = new List<MovieDetailResponse>();

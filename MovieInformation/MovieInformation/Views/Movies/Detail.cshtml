@@ -83,7 +83,7 @@
                                     <a href="" id="add-favorite" class="parent-btn"><i class="ion-heart" id="favorite-icon"></i> Add to Favorite</a>
                                 }
                             }
-                        </div>                        
+                        </div>
                         <div class="hover-bnt">
                             <a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>share</a>
                             <div class="hvr-item">
@@ -105,34 +105,44 @@
 
                         <div class="rate-star">
                             <p>Rate This Movie:  </p>
-                            <div id="rate-movies">
-                                <ul id="stars-movies">
+                            @if (string.IsNullOrEmpty(ViewBag.CurrentLoginId))
+                            {
+                                for (int i = 0; i < 10; i++)
+                                {
+                                    <i class="ion-ios-star-outline"></i>
+                                }
+                            }
+                            else
+                            {
+                                <div id="rate-movies">
+                                    <ul id="stars-movies">
 
-                                    @{
-                                        var count = Model.VoteAverage;
-                                        int i = 0;
-                                        while (true)
-                                        {
-                                            @if (ViewBag.UserRating == 0)
+                                        @{
+                                            var count = Model.VoteAverage;
+                                            int i = 0;
+                                            while (true)
                                             {
-                                                <li class="star-movie" data-value="@(++i)"><i class="ion-ios-star-outline"></i></li>
-                                            }
-                                            else
-                                            {
-                                                @if (i < ViewBag.UserRating)
+                                                @if (ViewBag.UserRating == 0)
                                                 {
-                                                    <li class="star-movie selected" data-value="@(++i)"><i class="ion-ios-star-outline"></i></li>
+                                                    <li class="star-movie" data-value="@(++i)"><i class="ion-ios-star-outline"></i></li>
                                                 }
                                                 else
                                                 {
-                                                    <li class="star-movie " data-value="@(++i)"><i class="ion-ios-star-outline"></i></li>
+                                                    @if (i < ViewBag.UserRating)
+                                                    {
+                                                        <li class="star-movie selected" data-value="@(++i)"><i class="ion-ios-star-outline"></i></li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="star-movie " data-value="@(++i)"><i class="ion-ios-star-outline"></i></li>
+                                                    }
                                                 }
+                                                if (i == 10) break;
                                             }
-                                            if (i == 10) break;
                                         }
-                                    }
-                                </ul>
-                            </div>
+                                    </ul>
+                                </div>
+                            }
                         </div>
                     </div>
                     <div class="movie-tabs">
@@ -258,7 +268,7 @@
                                                 </p>
                                             </div>
                                             <div class="ads">
-                                                <img src="~/images/uploads/ads1.png" alt="">
+                                                <img src="#" alt="">
                                             </div>
                                         </div>
                                     </div>
@@ -787,7 +797,7 @@
 
 </script>
 <script type="text/javascript">
-    $(function () {              
+    $(function () {
 
   /* 1. Visualizing things on Hover - See next part for action on click */
   $('#stars-movies li').on('mouseover', function(){
@@ -845,7 +855,7 @@
 
   });
 
-});        
+});
 </script>
 
 <script type="text/javascript">
