@@ -1,0 +1,91 @@
+﻿@model List<MovieInformation.Services.ApiModels.Responses.MovieDetailResponse>
+
+@{
+    ViewData["Title"] = "Movie Favorites";
+
+    Layout = "~/Views/Shared/_LayoutMovieInfor.cshtml";
+}
+
+<div class="hero common-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hero-ct">
+                    <h1>Movie Favorites</h1>
+                    <ul class="breadcumb">
+                        <li class="active"><a href="/Home/Index">Home</a></li>
+                        <li> <span class="ion-ios-arrow-right"></span> Movie Favorites</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="topbar-filter fw">
+                    <p>Found <span>@Model.Count() movies</span> in total</p>
+                    @*<label>Sort by:</label>*@
+                    @*<select id="movie-sort">
+                        <option value="popularityDes">Popularity Descending</option>
+                        <option value="popularityAsc">Popularity Ascending</option>
+                        <option value="ratingDes">Rating Descending</option>
+                        <option value="ratingAsc">Rating Ascending</option>
+                        <option value="releaseDes">Release date Descending</option>
+                        <option value="releaseAsc">Release date Ascending</option>
+                    </select>*@
+                    <a href="movielist.html" class="list"><i class="ion-ios-list-outline "></i></a>
+                    <a href="moviegridfw.html" class="grid"><i class="ion-grid active"></i></a>
+                </div>
+                <div class="flex-wrap-movielist mv-grid-fw">
+                    @foreach (var item in Model)
+                    {
+                    <div class="movie-item-style-2 movie-item-style-1">
+                        <img src="https://image.tmdb.org/t/p/original/@(item.PosterPath)" alt="" />
+                        <div class="hvr-inner">
+                           @Html.ActionLink("Read more","Detail","Movies",new { movieId=item.Id.ToString()}) <i class="ion-android-arrow-dropright"></i>
+                        </div>
+                        <div class="mv-item-infor">
+                            <h6><a href="/Movies/Detail?movieId=@item.Id">@item.Title</a></h6>
+                            <p class="rate"><i class="ion-android-star"></i><span>@item.VoteAverage</span> /10</p>
+                        </div>
+                    </div>
+                    }
+                </div>
+                <div class="topbar-filter">
+                    <label>Movies per page:</label>
+                    <select>
+                        <option value="range">20 Movies</option>
+                        <option value="saab">10 Movies</option>
+                    </select>
+
+                    <div class="pagination2">
+                        <span>Page 1 of @Model.Count:</span>
+                        @for (int i = 1; i <= 2; i++)
+                        {                            
+                            <a href="/Movies/Index?page=@i">@i</a>
+                        }                      
+                       
+                        <a href="#"><i class="ion-arrow-right-b"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">    
+      let searchParams = new URL(window.location).searchParams;
+    let option = searchParams.get('option');    
+    let page = searchParams.get('page');    
+    if (option!=null) {        
+        $("#movie-sort option[value=" + option + "]").prop("selected", "selected");        
+    }  
+    $("#movie-sort").change(function () {
+        var selectedSort = $(this).children("option:selected").val();
+        window.location.href = 'https://localhost:44369/movies?page='+page+'&option=' + selectedSort;
+    });        
+    
+</script>

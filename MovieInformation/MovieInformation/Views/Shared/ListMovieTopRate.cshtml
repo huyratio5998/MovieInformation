@@ -1,0 +1,24 @@
+﻿@model MovieInformation.Services.ApiModels.Responses.MoviePopularResponse
+
+
+<div class="row">
+    <div class="slick-multiItem2">
+        @foreach (var item in Model.Results)
+        {
+            <div class="slide-it">
+                <div class="movie-item">
+                    <div class="mv-img">
+                        <img src="https://image.tmdb.org/t/p/original/@(item.PosterPath)"  alt="" />
+                    </div>
+                    <div class="hvr-inner">
+                        <a href="/Movies/Detail?movieId=@item.Id.ToString()"> Read more <i class="ion-android-arrow-dropright"></i> </a>
+                    </div>
+                    <div class="title-in">
+                        <h6><a href="#">@item.Title</a></h6>
+                        <p><i class="ion-android-star"></i><span>@item.VoteAverage</span> /10</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

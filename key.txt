@@ -1,0 +1,8 @@
+Authentication:Zalo:ClientSecret = STTpM2DWEyS1F289TJ41
+Authentication:Zalo:ClientId = 2109702633400997589
+Authentication:Microsoft:ClientSecret = Rn7MGK~0y~SaQT9Ye7.VpWQN.lj0-4lcx1
+Authentication:Microsoft:ClientId = f82a600f-7d04-40dd-93e1-ece2a146a6ce
+Authentication:Google:ClientSecret = nB1n5fIgxq6igqjd0jFfe4QQ
+Authentication:Google:ClientId = 209932870011-1mi7p89s9vjhb76r7havheboinu5joni.apps.googleusercontent.com
+Authentication:Facebook:AppSecret = 1e75693da52641cde885d69f59ee54e5
+Authentication:Facebook:AppId = 696157921199116
